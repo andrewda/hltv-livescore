@@ -245,7 +245,7 @@ Scorebot.prototype.onPlayerJoin = function(event) {
 
 Scorebot.prototype.onPlayerQuit = function(event) {
     this.emit('playerquit', {
-        player: this.getPlayerByName(event.killerName)
+        player: this.getPlayerByName(event.playerName)
     });
 };
 
