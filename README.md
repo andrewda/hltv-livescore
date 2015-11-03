@@ -3,7 +3,7 @@
 ## Getting started
 
 **Get the module with the npm:**
-Coming soon
+-Coming soon-
 
 **Using HLTV-Scorebot:**
 ```javascript
@@ -113,4 +113,4 @@ sb.on('kill', function(data) {
 
 ## Examples
 
-To be done
+-Coming soon-

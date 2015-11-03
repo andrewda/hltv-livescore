@@ -73,7 +73,7 @@ Scorebot.prototype.onReconnect = function() {
 Scorebot.prototype.onLog = function(logs) {
     logs = JSON.parse(logs).log.reverse();
 
-    logs.forEach(function(log, index, array) {
+    logs.forEach(function(log) {
         for (event in log) {
             switch (event) {
 			case 'Kill':
