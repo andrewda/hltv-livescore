@@ -3,15 +3,13 @@
 ## Getting started
 
 **Get the module with the npm:**
-
 Coming soon
 
 **Using HLTV-Scorebot:**
-
 ```javascript
 var Scorebot = require('hltv-scorebot');
 var sb = new Scorebot();
-sb.connect('http://scorebot2.hltv.org', 10022, 383258, 2298994);
+sb.connect(383564, 2299033);
 
 sb.on('kill', function(data) {
     console.log(data.killer.name, 'killed', data.victim.name, 'with', data.weapon, data.headshot ? '(headshot)' : '');
@@ -20,12 +18,12 @@ sb.on('kill', function(data) {
 
 ## Methods
 
-- `connect(url, port, matchid, listid)`
-    - `url` the ip of the scorebot server (def. `http://scorebot.hltv.org`).
-    - `port` the port of the scorebot server (def. `10023`).
+- `connect(matchid, listid, url [optional], port [optional])`
     - `matchid` identifier for the wanted match. [andrewda](https://github.com/andrewda) made a module to get the matchid <https://github.com/andrewda/hltv-live-games>
     - `listid` secondary identifier for the wanted match. It can be found in the URL immediatly after `/match/` or on the HLTV page when the game goes live.
        - The list id for http://www.hltv.org/match/2298994-maxandrelax-arcade-dngit-2000-weekly-cup-24 would be 2298994.
+    - `url` [OPTIONAL] the ip of the scorebot server (default `http://scorebot2.hltv.org`).
+    - `port` [OPTIONAL] the port of the scorebot server (default `10022`).
 - `playersOnline()`
     - returns a list of all players connected
 - `getPlayerByName(name)`
