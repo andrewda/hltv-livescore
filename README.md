@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This version of hltv-scorebot is much like @Nols1000's [original version](https://github.com/Nols1000/hltv-scorebot) created back in May. It is packed full of features, but was never updated to the newest version of HLTV's scorebot. I created this version to be more of a wrapper to HLTV, and to incorporate all of the features available with the new scorebot.
+This version of hltv-scorebot is much like @Nols1000's [original version](https://github.com/Nols1000/hltv-scorebot) created back in May of 2015. It is packed full of features, but was never updated to the newest version of HLTV's scorebot. I created this version to be more of a wrapper to HLTV, and to incorporate all of the features available with the new scorebot.
 
 ## Getting started
 
