@@ -43,7 +43,7 @@ Scorebot.prototype.connect = function () {
 
     this.matchid = arguments[0];
     this.listid = arguments[1];
-    if (arguments[2] !== undefined && arguments[3] !== undefined) {
+    if (typeof arguments[2] !== 'undefined' && typeof arguments[3] !== 'undefined') {
         this.ip = arguments[2];
         this.port = arguments[3];
     }
@@ -194,7 +194,7 @@ Scorebot.prototype.updatePlayers = function (t, ct, data) {
 };
 
 Scorebot.prototype.getPlayerByName = function (name) {
-    if (players[name] !== undefined) {
+    if (typeof players[name] !== 'undefined') {
         return players[name];
     } else {
         return false;
