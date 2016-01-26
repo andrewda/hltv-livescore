@@ -24,7 +24,7 @@ function Scorebot() {
     this.socket = null;
     this.reconnect = false;
 
-    this.map = "de_dust2";
+    this.map = 'de_dust2';
     this.time = 0;
     this.interval;
 
@@ -239,29 +239,29 @@ Scorebot.prototype.onSuicide = function (event) {
 
 Scorebot.prototype.onBombPlanted = function (event) {
     this.setTime(this.options[OPTION_MATCHBOMBTIME]);
-    this.emit('bombplanted', {
+    this.emit('bombPlanted', {
         player: this.getPlayerByName(event.playerName)
     });
 };
 
 Scorebot.prototype.onBombDefused = function (event) {
-    this.emit('bombdefused', {
+    this.emit('bombDefused', {
         player: this.getPlayerByName(event.playerName)
     });
 };
 
 Scorebot.prototype.onMatchStarted = function (event) {
-    this.emit('matchstart', event);
+    this.emit('matchStart', event);
 };
 
 Scorebot.prototype.onRoundStart = function () {
     this.setTime(this.options[OPTION_MATCHROUNDTIME]);
-    this.emit('roundstart');
+    this.emit('roundStart');
 };
 
 Scorebot.prototype.onRoundEnd = function (event) {
     this.setTime(this.options[OPTION_MATCHFREEZETIME]);
-    this.emit('roundend', {
+    this.emit('roundEnd', {
         score: {
             ct: event.counterTerroristScore,
             t: event.terroristScore
@@ -272,13 +272,13 @@ Scorebot.prototype.onRoundEnd = function (event) {
 };
 
 Scorebot.prototype.onPlayerJoin = function (event) {
-    this.emit('playerjoin', {
+    this.emit('playerJoin', {
         playerName: event.playerName
     });
 };
 
 Scorebot.prototype.onPlayerQuit = function (event) {
-    this.emit('playerquit', {
+    this.emit('playerQuit', {
         player: this.getPlayerByName(event.playerName)
     });
 };
@@ -288,7 +288,7 @@ Scorebot.prototype.onServerRestart = function () {
 };
 
 Scorebot.prototype.onMapChange = function (event) {
-    this.emit('map', event);
+    this.emit('mapChange', event);
 };
 
 Scorebot.prototype.setTime = function (time) {

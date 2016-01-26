@@ -78,17 +78,17 @@ sb.on('kill', function(data) {
                 - [Player]
              - `weapon`: the weapon used
              - `headshot`: whether the kill was with a headshot, boolean
-       - `bombplanted`
+       - `bombPlanted`
           - `callback: function(player) [Object]`
           - `player`
              - [Player]
-       - `bombdefused`
+       - `bombDefused`
           - `callback: function(player) [Object]`
           - `player`
              - [Player]
-       - `roundstart`
+       - `roundStart`
           - `callback: function()`
-       - `roundend`
+       - `roundEnd`
           - `callback: function(end) [Object]`
           - `end`
              - `score`
@@ -96,15 +96,15 @@ sb.on('kill', function(data) {
                 - `t`: the T score
              -  `winner`: the team that won
              -  `winType`: how the team won
-       - `playerjoin`
+       - `playerJoin`
           - `callback: function(player) [Object]`
           - `player`
              - `playerName`: the player's name
-       - `playerquit`
+       - `playerQuit`
           - `callback: function(player) [Object]`
           - `player`
              - [Player]
-       - `mapchange`
+       - `mapChange`
           - `callback: function(map) [Object]`
           - `map`
              - `map`: the new map
