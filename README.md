@@ -24,12 +24,13 @@ sb.on('kill', function(data) {
 
 ## Methods
 
-- `connect(matchid, listid, url [optional], port [optional])`
+- `connect(matchid, listid, url [optional], port [optional], oldtime [optional])`
     - `matchid` identifier for the wanted match. [andrewda](https://github.com/andrewda) made a module to get the matchid <https://github.com/andrewda/hltv-live-games>
     - `listid` secondary identifier for the wanted match. It can be found in the URL immediatly after `/match/` or on the HLTV page when the game goes live.
        - The list id for http://www.hltv.org/match/2298994-maxandrelax-arcade-dngit-2000-weekly-cup-24 would be 2298994.
     - `url` [OPTIONAL] the ip of the scorebot server (default `http://scorebot2.hltv.org`).
     - `port` [OPTIONAL] the port of the scorebot server (default `10022`).
+    - `oldtime` [OPTIONAL] if we want to use the old match time (default `false`)
 - `playersOnline()`
     - returns a list of all players connected
 - `getPlayerByName(name)`
