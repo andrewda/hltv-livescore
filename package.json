@@ -1,6 +1,6 @@
 {
   "name": "hltv-scorebot",
-  "version": "0.1.1",
+  "version": "0.5.0",
   "description": "An HLTV scorebot wrapper.",
   "main": "Scorebot.js",
   "scripts": {
