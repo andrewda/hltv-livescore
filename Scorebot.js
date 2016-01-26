@@ -165,7 +165,7 @@ Scorebot.prototype.updatePlayers = function (t, ct, data) {
             alive: player.alive,
             rating: player.rating,
             money: player.money,
-            side: 'TERRORIST',
+            side: TERRORIST,
             team: {
                 name: data.terrorist.name,
                 id: data.terrorist.id
@@ -184,7 +184,7 @@ Scorebot.prototype.updatePlayers = function (t, ct, data) {
             alive: player.alive,
             rating: player.rating,
             money: player.money,
-            side: 'CT',
+            side: COUNTERTERRORIST,
             team: {
                 name: data.counterterrorist.name,
                 id: data.counterterrorist.id
