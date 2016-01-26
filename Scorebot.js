@@ -30,8 +30,8 @@ function Scorebot() {
 
     this.options = {};
 
-    this.options[OPTION_MATCHROUNDTIME] = 105;
-    this.options[OPTION_MATCHBOMBTIME] = 35;
+    this.options[OPTION_MATCHROUNDTIME] = 115; // 105 before update
+    this.options[OPTION_MATCHBOMBTIME] = 40; // 35 before update
     this.options[OPTION_MATCHFREEZETIME] = 15;
 }
 
@@ -43,10 +43,23 @@ Scorebot.prototype.connect = function () {
 
     this.matchid = arguments[0];
     this.listid = arguments[1];
-    if (typeof arguments[2] !== 'undefined' && typeof arguments[3] !== 'undefined') {
-        this.emit('debug', 'using non-default ip/port: ' + arguments[2] + ':' + arguments[3]);
+    
+    if (typeof arguments[2] !== 'undefined') {
+        this.emit('debug', 'using non-default ip: ' + arguments[2]);
         this.ip = arguments[2];
+    }
+    
+    if (typeof arguments[3] !== 'undefined') {
+        this.emit('debug', 'using non-default port: ' + arguments[3]);
         this.port = arguments[3];
+    }
+    
+    if (typeof arguments[4] !== 'undefined') {
+        if (arguments[4]) {
+            this.emit('debug', 'using old round times');
+            this.options[OPTION_MATCHROUNDTIME] = 105; // 115 after update
+            this.options[OPTION_MATCHBOMBTIME] = 35; // 40 after update
+        }
     }
 
     this.socket = io(this.ip + ':' + this.port);
