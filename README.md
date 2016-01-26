@@ -6,8 +6,10 @@ This version of hltv-scorebot is much like @Nols1000's [original version](https:
 
 ## Getting started
 
-**Get the module with the npm:**
-Coming soon
+**Install with npm:**
+```
+npm install andrewda/hltv-scorebot
+```
 
 **Using HLTV-Scorebot:**
 ```javascript
