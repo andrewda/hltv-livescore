@@ -44,6 +44,7 @@ Scorebot.prototype.connect = function () {
     this.matchid = arguments[0];
     this.listid = arguments[1];
     if (typeof arguments[2] !== 'undefined' && typeof arguments[3] !== 'undefined') {
+        this.emit('debug', 'using non-default ip/port: ' + arguments[2] + ':' + arguments[3]);
         this.ip = arguments[2];
         this.port = arguments[3];
     }
@@ -83,6 +84,7 @@ Scorebot.prototype.onLog = function (logs) {
         logs = JSON.parse(logs).log.reverse();
         logs.forEach(function (log) {
             for (event in log) {
+                this.emit('debug', 'received event: ' + event);
                 switch (event) {
                 case 'Kill':
                     this.onKill(log[event]);
@@ -121,7 +123,7 @@ Scorebot.prototype.onLog = function (logs) {
                     this.onSuicide(log[event]);
                     break;
                 default:
-                    console.log('EVENT NOT RECOGNIZED!');
+                    this.emit('debug', 'unrecognized event: ' + event);
                     break;
                 }
             }
@@ -197,6 +199,7 @@ Scorebot.prototype.getPlayerByName = function (name) {
     if (typeof players[name] !== 'undefined') {
         return players[name];
     } else {
+        
         return false;
     }
 };
