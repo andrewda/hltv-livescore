@@ -27,6 +27,8 @@ function Scorebot() {
     this.map = 'de_dust2';
     this.time = 0;
     this.interval;
+    
+    this.knifeKills = 0;
 
     this.options = {};
 
@@ -226,6 +228,10 @@ Scorebot.prototype.onKill = function (event) {
         weapon: event.weapon,
         headshot: event.headShot
     });
+    
+    if (event.weapon.indexOf('knife') > -1) {
+        this.knifeKills++;
+    }
 };
 
 Scorebot.prototype.onSuicide = function (event) {
@@ -257,6 +263,8 @@ Scorebot.prototype.onMatchStarted = function (event) {
 Scorebot.prototype.onRoundStart = function () {
     this.setTime(this.options[OPTION_MATCHROUNDTIME]);
     this.emit('roundStart');
+    
+    this.knifeKills = 0;
 };
 
 Scorebot.prototype.onRoundEnd = function (event) {
@@ -275,7 +283,8 @@ Scorebot.prototype.onRoundEnd = function (event) {
             t: event.terroristScore
         },
         winner: winner,
-        winType: event.winType
+        winType: event.winType,
+        knifeRound: this.knifeKills >= 5
     });
 };
 
