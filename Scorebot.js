@@ -45,21 +45,21 @@ Scorebot.prototype.connect = function () {
     this.listid = arguments[1];
     
     if (typeof arguments[2] !== 'undefined') {
-        this.emit('debug', 'using non-default ip: ' + arguments[2]);
-        this.ip = arguments[2];
-    }
-    
-    if (typeof arguments[3] !== 'undefined') {
-        this.emit('debug', 'using non-default port: ' + arguments[3]);
-        this.port = arguments[3];
-    }
-    
-    if (typeof arguments[4] !== 'undefined') {
-        if (arguments[4]) {
+        if (arguments[2]) {
             this.emit('debug', 'using old round times');
             this.options[OPTION_MATCHROUNDTIME] = 105; // 115 after update
             this.options[OPTION_MATCHBOMBTIME] = 35; // 40 after update
         }
+    }
+    
+    if (typeof arguments[3] !== 'undefined') {
+        this.emit('debug', 'using non-default ip: ' + arguments[2]);
+        this.ip = arguments[3];
+    }
+    
+    if (typeof arguments[4] !== 'undefined') {
+        this.emit('debug', 'using non-default port: ' + arguments[3]);
+        this.port = arguments[4];
     }
 
     this.socket = io(this.ip + ':' + this.port);
