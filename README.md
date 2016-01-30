@@ -97,6 +97,7 @@ sb.on('kill', function(data) {
                 - `t`: the T score
              -  `winner`: the team that won
              -  `winType`: how the team won
+             -  `knifeRound`: if we think the round was a knife round (>5 kills)
        - `playerJoin`
           - `callback: function(player) [Object]`
           - `player`
