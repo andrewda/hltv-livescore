@@ -260,13 +260,21 @@ Scorebot.prototype.onRoundStart = function () {
 };
 
 Scorebot.prototype.onRoundEnd = function (event) {
+    var winner;
+    
+    if (event.winner === 'TERRORIST') {
+        winner = TERRORIST;
+    } else {
+        winner = COUNTERTERRORIST;
+    }
+    
     this.setTime(this.options[OPTION_MATCHFREEZETIME]);
     this.emit('roundEnd', {
         score: {
             ct: event.counterTerroristScore,
             t: event.terroristScore
         },
-        winner: event.winner,
+        winner: winner,
         winType: event.winType
     });
 };
