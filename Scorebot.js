@@ -69,6 +69,10 @@ Scorebot.prototype.connect = function () {
     this.socket.on('connect', this.onConnect.bind(this));
 };
 
+Scorebot.prototype.disconnect = function () {
+    this.socket.disconnect();
+};
+
 Scorebot.prototype.onConnect = function () {
     if (!this.reconnect) {
         this.socket.on('log', this.onLog.bind(this));
