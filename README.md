@@ -31,7 +31,7 @@ sb.on('kill', function(data) {
     - `url` [OPTIONAL] the ip of the scorebot server (default `http://scorebot2.hltv.org`).
     - `port` [OPTIONAL] the port of the scorebot server (default `10022`).
     - `oldtime` [OPTIONAL] if we want to use the old match time (default `false`)
-- `playersOnline()`
+- `getPlayersOnline()`
     - returns a list of all players connected
 - `getPlayerByName(name)`
 - `on(event, callback)`

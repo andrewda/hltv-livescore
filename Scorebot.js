@@ -73,6 +73,14 @@ Scorebot.prototype.disconnect = function () {
     this.socket.disconnect();
 };
 
+Scorebot.prototype.getPlayersOnline = function () {
+    if (Object.keys(players).length !== 0) {
+        return players;
+    } else {
+        return false;
+    }
+};
+
 Scorebot.prototype.onConnect = function () {
     if (!this.reconnect) {
         this.socket.on('log', this.onLog.bind(this));
@@ -83,14 +91,6 @@ Scorebot.prototype.onConnect = function () {
     this.socket.emit('readyForMatch', this.listid);
 
     players = {};
-};
-
-Scorebot.prototype.playersOnline = function () {
-    if (Object.keys(players).length !== 0) {
-        return players;
-    } else {
-        return false;
-    }
 };
 
 Scorebot.prototype.onReconnect = function () {
