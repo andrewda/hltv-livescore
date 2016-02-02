@@ -81,6 +81,14 @@ Scorebot.prototype.getPlayersOnline = function () {
     }
 };
 
+Scorebot.prototype.getPlayerByName = function (name) {
+    if (typeof players[name] !== 'undefined') {
+        return players[name];
+    } else {
+        return false;
+    }
+};
+
 Scorebot.prototype.onConnect = function () {
     if (!this.reconnect) {
         this.socket.on('log', this.onLog.bind(this));
@@ -160,7 +168,7 @@ Scorebot.prototype.onScoreboard = function (score) {
         connected = true;
     }
 
-    this.updatePlayers(score.TERRORIST, score.CT, {
+    updatePlayers(score.TERRORIST, score.CT, {
         terrorist: {
             name: score.terroristTeamName,
             id: score.tTeamId
@@ -172,55 +180,6 @@ Scorebot.prototype.onScoreboard = function (score) {
     });
 
     this.emit('scoreboard', score);
-};
-
-Scorebot.prototype.updatePlayers = function (t, ct, data) {
-    t.forEach(function (player) {
-        players[player.name] = {
-            steamId: player.steamId,
-            dbId: player.dbId,
-            name: player.name,
-            score: player.score,
-            deaths: player.deaths,
-            assists: player.assists,
-            alive: player.alive,
-            rating: player.rating,
-            money: player.money,
-            side: TERRORIST,
-            team: {
-                name: data.terrorist.name,
-                id: data.terrorist.id
-            }
-        };
-    });
-
-    ct.forEach(function (player) {
-        players[player.name] = {
-            steamId: player.steamId,
-            dbId: player.dbId,
-            name: player.name,
-            score: player.score,
-            deaths: player.deaths,
-            assists: player.assists,
-            alive: player.alive,
-            rating: player.rating,
-            money: player.money,
-            side: COUNTERTERRORIST,
-            team: {
-                name: data.counterterrorist.name,
-                id: data.counterterrorist.id
-            }
-        };
-    });
-};
-
-Scorebot.prototype.getPlayerByName = function (name) {
-    if (typeof players[name] !== 'undefined') {
-        return players[name];
-    } else {
-        
-        return false;
-    }
 };
 
 Scorebot.prototype.onKill = function (event) {
@@ -321,5 +280,45 @@ Scorebot.prototype.setTime = function (time) {
         this.emit('time', this.time);
     }.bind(this), 1000);
 };
+
+function updatePlayers (t, ct, data) {
+    t.forEach(function (player) {
+        players[player.name] = {
+            steamId: player.steamId,
+            dbId: player.dbId,
+            name: player.name,
+            score: player.score,
+            deaths: player.deaths,
+            assists: player.assists,
+            alive: player.alive,
+            rating: player.rating,
+            money: player.money,
+            side: TERRORIST,
+            team: {
+                name: data.terrorist.name,
+                id: data.terrorist.id
+            }
+        };
+    });
+
+    ct.forEach(function (player) {
+        players[player.name] = {
+            steamId: player.steamId,
+            dbId: player.dbId,
+            name: player.name,
+            score: player.score,
+            deaths: player.deaths,
+            assists: player.assists,
+            alive: player.alive,
+            rating: player.rating,
+            money: player.money,
+            side: COUNTERTERRORIST,
+            team: {
+                name: data.counterterrorist.name,
+                id: data.counterterrorist.id
+            }
+        };
+    });
+}
 
 module.exports = Scorebot;
