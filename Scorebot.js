@@ -107,7 +107,7 @@ Scorebot.prototype.onReconnect = function() {
 };
 
 Scorebot.prototype.onLog = function(logs) {
-    if (this.playersOnline()) {
+    if (this.getPlayersOnline()) {
         logs = JSON.parse(logs).log.reverse();
         logs.forEach(function(log) {
             for (event in log) {
