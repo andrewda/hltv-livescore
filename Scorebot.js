@@ -1,6 +1,6 @@
-var io = require('socket.io-client');
-var EE = require('events').EventEmitter;
-var inherits = require('util').inherits;
+var io = require("socket.io-client");
+var EE = require("events").EventEmitter;
+var inherits = require("util").inherits;
 
 var TERRORIST = 0;
 var COUNTERTERRORIST = 1;
@@ -9,7 +9,7 @@ var OPTION_MATCHROUNDTIME = 0;
 var OPTION_MATCHBOMBTIME = 1;
 var OPTION_MATCHFREEZETIME = 2;
 
-var CONNECTION = 'http://scorebot2.hltv.org';
+var CONNECTION = "http://scorebot2.hltv.org";
 var PORT = 10022;
 
 function Scorebot() {
@@ -23,7 +23,7 @@ function Scorebot() {
     this.socket = null;
     this.reconnect = false;
 
-    this.map = 'de_dust2';
+    this.map = "de_dust2";
     this.time = 0;
     this.interval;
     this.players = {};
@@ -46,27 +46,27 @@ Scorebot.prototype.connect = function() {
     this.matchid = arguments[0];
     this.listid = arguments[1];
 
-    if (typeof arguments[2] !== 'undefined') {
+    if (typeof arguments[2] !== "undefined") {
         if (arguments[2]) {
-            this.emit('debug', 'using old round times');
+            this.emit("debug", "using old round times");
             this.options[OPTION_MATCHROUNDTIME] = 105; // 115 after update
             this.options[OPTION_MATCHBOMBTIME] = 35; // 40 after update
         }
     }
 
-    if (typeof arguments[3] !== 'undefined') {
-        this.emit('debug', 'using non-default ip: ' + arguments[2]);
+    if (typeof arguments[3] !== "undefined") {
+        this.emit("debug", "using non-default ip: " + arguments[2]);
         this.ip = arguments[3];
     }
 
-    if (typeof arguments[4] !== 'undefined') {
-        this.emit('debug', 'using non-default port: ' + arguments[3]);
+    if (typeof arguments[4] !== "undefined") {
+        this.emit("debug", "using non-default port: " + arguments[3]);
         this.port = arguments[4];
     }
 
-    this.socket = io(this.ip + ':' + this.port);
+    this.socket = io(this.ip + ":" + this.port);
 
-    this.socket.on('connect', this.onConnect.bind(this));
+    this.socket.on("connect", this.onConnect.bind(this));
 };
 
 Scorebot.prototype.disconnect = function() {
@@ -83,7 +83,7 @@ Scorebot.prototype.getPlayersOnline = function() {
 };
 
 Scorebot.prototype.getPlayerByName = function(name) {
-    if (typeof this.players[name] !== 'undefined') {
+    if (typeof this.players[name] !== "undefined") {
         return this.players[name];
     } else {
         return false;
@@ -92,17 +92,17 @@ Scorebot.prototype.getPlayerByName = function(name) {
 
 Scorebot.prototype.onConnect = function() {
     if (!this.reconnect) {
-        this.socket.on('log', this.onLog.bind(this));
-        this.socket.on('score', this.onScore.bind(this));
-        this.socket.on('scoreboard', this.onScoreboard.bind(this));
+        this.socket.on("log", this.onLog.bind(this));
+        this.socket.on("score", this.onScore.bind(this));
+        this.socket.on("scoreboard", this.onScoreboard.bind(this));
     }
 
-    this.socket.emit('readyForMatch', this.listid);
+    this.socket.emit("readyForMatch", this.listid);
 };
 
 Scorebot.prototype.onReconnect = function() {
     this.reconnect = true;
-    this.socket.emit('readyForMatch', this.listid);
+    this.socket.emit("readyForMatch", this.listid);
 };
 
 Scorebot.prototype.onLog = function(logs) {
@@ -110,46 +110,46 @@ Scorebot.prototype.onLog = function(logs) {
         logs = JSON.parse(logs).log.reverse();
         logs.forEach(function(log) {
             for (event in log) {
-                this.emit('debug', 'received event: ' + event);
+                this.emit("debug", "received event: " + event);
                 switch (event) {
-                    case 'Kill':
+                    case "Kill":
                         this.onKill(log[event]);
                         break;
-                    case 'Assist':
+                    case "Assist":
                         this.onAssist(log[event]);
                         break;
-                    case 'BombPlanted':
+                    case "BombPlanted":
                         this.onBombPlanted(log[event]);
                         break;
-                    case 'BombDefused':
+                    case "BombDefused":
                         this.onBombDefused(log[event]);
                         break;
-                    case 'RoundStart':
+                    case "RoundStart":
                         this.onRoundStart(log[event]);
                         break;
-                    case 'RoundEnd':
+                    case "RoundEnd":
                         this.onRoundEnd(log[event]);
                         break;
-                    case 'PlayerJoin':
+                    case "PlayerJoin":
                         this.onPlayerJoin(log[event]);
                         break;
-                    case 'PlayerQuit':
+                    case "PlayerQuit":
                         this.onPlayerQuit(log[event]);
                         break;
-                    case 'MapChange':
+                    case "MapChange":
                         this.onMapChange(log[event]);
                         break;
-                    case 'MatchStarted':
+                    case "MatchStarted":
                         this.onMatchStarted(log[event]);
                         break;
-                    case 'Restart':
+                    case "Restart":
                         this.onServerRestart(log[event]);
                         break;
-                    case 'Suicide':
+                    case "Suicide":
                         this.onSuicide(log[event]);
                         break;
                     default:
-                        this.emit('debug', 'unrecognized event: ' + event);
+                        this.emit("debug", "unrecognized event: " + event);
                         break;
                 }
             }
@@ -158,12 +158,12 @@ Scorebot.prototype.onLog = function(logs) {
 };
 
 Scorebot.prototype.onScore = function(score) {
-    this.emit('score', score);
+    this.emit("score", score);
 };
 
 Scorebot.prototype.onScoreboard = function(score) {
     if (!this.connected) {
-        this.emit('connected');
+        this.emit("connected");
         this.connected = true;
     }
 
@@ -178,28 +178,28 @@ Scorebot.prototype.onScoreboard = function(score) {
         }
     });
 
-    this.emit('scoreboard', score);
+    this.emit("scoreboard", score);
 };
 
 Scorebot.prototype.onKill = function(event) {
-    this.emit('player', this.player);
+    this.emit("player", this.player);
 
-    this.emit('kill', {
+    this.emit("kill", {
         killer: this.getPlayerByName(event.killerName),
         victim: this.getPlayerByName(event.victimName),
         weapon: event.weapon,
         headshot: event.headShot
     });
 
-    if (event.weapon.indexOf('knife') > -1) {
+    if (event.weapon.indexOf("knife") > -1) {
         this.knifeKills++;
     }
 };
 
 Scorebot.prototype.onSuicide = function(event) {
-    this.emit('player', this.player);
+    this.emit("player", this.player);
 
-    this.emit('suicide', {
+    this.emit("suicide", {
         playerName: event.playerName,
         playerSide: event.side
     });
@@ -207,24 +207,24 @@ Scorebot.prototype.onSuicide = function(event) {
 
 Scorebot.prototype.onBombPlanted = function(event) {
     this.setTime(this.options[OPTION_MATCHBOMBTIME]);
-    this.emit('bombPlanted', {
+    this.emit("bombPlanted", {
         player: this.getPlayerByName(event.playerName)
     });
 };
 
 Scorebot.prototype.onBombDefused = function(event) {
-    this.emit('bombDefused', {
+    this.emit("bombDefused", {
         player: this.getPlayerByName(event.playerName)
     });
 };
 
 Scorebot.prototype.onMatchStarted = function(event) {
-    this.emit('matchStart', event);
+    this.emit("matchStart", event);
 };
 
 Scorebot.prototype.onRoundStart = function() {
     this.setTime(this.options[OPTION_MATCHROUNDTIME]);
-    this.emit('roundStart');
+    this.emit("roundStart");
 
     this.knifeKills = 0;
 };
@@ -232,14 +232,14 @@ Scorebot.prototype.onRoundStart = function() {
 Scorebot.prototype.onRoundEnd = function(event) {
     var winner;
 
-    if (event.winner === 'TERRORIST') {
+    if (event.winner === "TERRORIST") {
         winner = TERRORIST;
     } else {
         winner = COUNTERTERRORIST;
     }
 
     this.setTime(this.options[OPTION_MATCHFREEZETIME]);
-    this.emit('roundEnd', {
+    this.emit("roundEnd", {
         score: {
             ct: event.counterTerroristScore,
             t: event.terroristScore
@@ -251,23 +251,23 @@ Scorebot.prototype.onRoundEnd = function(event) {
 };
 
 Scorebot.prototype.onPlayerJoin = function(event) {
-    this.emit('playerJoin', {
+    this.emit("playerJoin", {
         playerName: event.playerName
     });
 };
 
 Scorebot.prototype.onPlayerQuit = function(event) {
-    this.emit('playerQuit', {
+    this.emit("playerQuit", {
         player: this.getPlayerByName(event.playerName)
     });
 };
 
 Scorebot.prototype.onServerRestart = function() {
-    this.emit('restart');
+    this.emit("restart");
 };
 
 Scorebot.prototype.onMapChange = function(event) {
-    this.emit('mapChange', event);
+    this.emit("mapChange", event);
 };
 
 Scorebot.prototype.setTime = function(time) {
@@ -276,7 +276,7 @@ Scorebot.prototype.setTime = function(time) {
     this.time = time;
     this.interval = setInterval(function() {
         this.time = this.time - 1;
-        this.emit('time', this.time);
+        this.emit("time", this.time);
     }.bind(this), 1000);
 };
 
