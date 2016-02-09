@@ -1,5 +1,7 @@
 # HLTV Scorebot
 
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/52d5dd690f734a32b47b9cdc58b558b6)](https://www.codacy.com/app/dassonville-andrew/hltv-scorebot)
+
 ## Introduction
 
 This version of hltv-scorebot is much like @Nols1000's [original version](https://github.com/Nols1000/hltv-scorebot) created back in May of 2015. It is packed full of features, but was never updated to the newest version of HLTV's scorebot. I created this version to be more of a wrapper to HLTV, and to incorporate all of the features available with the new scorebot.
