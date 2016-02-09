@@ -12,10 +12,9 @@ var OPTION_MATCHFREEZETIME = 2;
 var CONNECTION = 'http://scorebot2.hltv.org';
 var PORT = 10022;
 
-var players = {};
-var connected = false;
-
 function Scorebot() {
+    this.connected = false;
+
     this.matchid = 0;
     this.listid = 0;
     this.ip = CONNECTION;
@@ -27,6 +26,7 @@ function Scorebot() {
     this.map = 'de_dust2';
     this.time = 0;
     this.interval;
+    this.players = {};
 
     this.knifeKills = 0;
 
@@ -40,8 +40,8 @@ function Scorebot() {
 inherits(Scorebot, EE);
 
 Scorebot.prototype.connect = function() {
-    connected = false;
-    players = {};
+    this.connected = false;
+    this.players = {};
 
     this.matchid = arguments[0];
     this.listid = arguments[1];
@@ -70,20 +70,21 @@ Scorebot.prototype.connect = function() {
 };
 
 Scorebot.prototype.disconnect = function() {
+    this.connected = false;
     this.socket.disconnect();
 };
 
 Scorebot.prototype.getPlayersOnline = function() {
-    if (Object.keys(players).length !== 0) {
-        return players;
+    if (Object.keys(this.players).length !== 0) {
+        return this.players;
     } else {
         return false;
     }
 };
 
 Scorebot.prototype.getPlayerByName = function(name) {
-    if (typeof players[name] !== 'undefined') {
-        return players[name];
+    if (typeof this.players[name] !== 'undefined') {
+        return this.players[name];
     } else {
         return false;
     }
@@ -97,8 +98,6 @@ Scorebot.prototype.onConnect = function() {
     }
 
     this.socket.emit('readyForMatch', this.listid);
-
-    players = {};
 };
 
 Scorebot.prototype.onReconnect = function() {
@@ -163,9 +162,9 @@ Scorebot.prototype.onScore = function(score) {
 };
 
 Scorebot.prototype.onScoreboard = function(score) {
-    if (!connected) {
+    if (!this.connected) {
         this.emit('connected');
-        connected = true;
+        this.connected = true;
     }
 
     updatePlayers(score.TERRORIST, score.CT, {
@@ -202,7 +201,7 @@ Scorebot.prototype.onSuicide = function(event) {
 
     this.emit('suicide', {
         playerName: event.playerName,
-        playerSide: event.side,
+        playerSide: event.side
     });
 };
 
@@ -283,7 +282,7 @@ Scorebot.prototype.setTime = function(time) {
 
 function updatePlayers(t, ct, data) {
     t.forEach(function(player) {
-        players[player.name] = {
+        this.players[player.name] = {
             steamId: player.steamId,
             dbId: player.dbId,
             name: player.name,
@@ -302,7 +301,7 @@ function updatePlayers(t, ct, data) {
     });
 
     ct.forEach(function(player) {
-        players[player.name] = {
+        this.players[player.name] = {
             steamId: player.steamId,
             dbId: player.dbId,
             name: player.name,
