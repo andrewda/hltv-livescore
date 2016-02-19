@@ -1,7 +1,6 @@
 # HLTV Scorebot
 
 [![Join the chat at https://gitter.im/andrewda/hltv-scorebot](https://badges.gitter.im/andrewda/hltv-scorebot.svg)](https://gitter.im/andrewda/hltv-scorebot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/52d5dd690f734a32b47b9cdc58b558b6)](https://www.codacy.com/app/dassonville-andrew/hltv-scorebot)
 
 ## Introduction
