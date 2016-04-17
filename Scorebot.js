@@ -12,6 +12,8 @@ var OPTION_MATCHFREEZETIME = 2;
 var CONNECTION = "http://scorebot2.hltv.org";
 var PORT = 10022;
 
+var that;
+
 function Scorebot() {
     this.connected = false;
 
@@ -35,6 +37,8 @@ function Scorebot() {
     this.options[OPTION_MATCHROUNDTIME] = 115; // 105 before update
     this.options[OPTION_MATCHBOMBTIME] = 40; // 35 before update
     this.options[OPTION_MATCHFREEZETIME] = 15;
+
+    that =  this;
 }
 
 inherits(Scorebot, EE);
@@ -282,7 +286,7 @@ Scorebot.prototype.setTime = function(time) {
 
 function updatePlayers(t, ct, data) {
     t.forEach(function(player) {
-        this.players[player.name] = {
+        that.players[player.name] = {
             steamId: player.steamId,
             dbId: player.dbId,
             name: player.name,
@@ -301,7 +305,7 @@ function updatePlayers(t, ct, data) {
     });
 
     ct.forEach(function(player) {
-        this.players[player.name] = {
+        that.players[player.name] = {
             steamId: player.steamId,
             dbId: player.dbId,
             name: player.name,
