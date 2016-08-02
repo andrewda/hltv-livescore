@@ -1,18 +1,17 @@
-var io = require("socket.io-client");
-var EE = require("events").EventEmitter;
-var inherits = require("util").inherits;
+var io = require('socket.io-client');
+var EE = require('events').EventEmitter;
+var inherits = require('util').inherits;
 
-var TERRORIST = 0;
-var COUNTERTERRORIST = 1;
-
-var OPTION_MATCHROUNDTIME = 0;
-var OPTION_MATCHBOMBTIME = 1;
-var OPTION_MATCHFREEZETIME = 2;
-
-var CONNECTION = "http://scorebot2.hltv.org";
+var CONNECTION = 'http://scorebot2.hltv.org';
 var PORT = 10022;
 
 var that;
+
+inherits(Scorebot, EE);
+
+Scorebot.EOption = require('./enums/EOption.js');
+Scorebot.ERoundType = require('./enums/ERoundType.js');
+Scorebot.ESide = require('./enums/ESide.js');
 
 function Scorebot() {
     this.connected = false;
@@ -25,23 +24,25 @@ function Scorebot() {
     this.socket = null;
     this.reconnect = false;
 
-    this.map = "de_dust2";
     this.time = 0;
+    this.map;
     this.interval;
+    
+    this.scoreboard;
+    
     this.players = {};
-
+    this.teams = {};
+    
     this.knifeKills = 0;
 
     this.options = {};
 
-    this.options[OPTION_MATCHROUNDTIME] = 115; // 105 before update
-    this.options[OPTION_MATCHBOMBTIME] = 40; // 35 before update
-    this.options[OPTION_MATCHFREEZETIME] = 15;
+    this.options[Scorebot.EOption['ROUND_TIME']] = 115; // 105 before update
+    this.options[Scorebot.EOption['BOMB_TIME']] = 40; // 35 before update
+    this.options[Scorebot.EOption['FREEZE_TIME']] = 15;
 
-    that =  this;
+    that = this;
 }
-
-inherits(Scorebot, EE);
 
 Scorebot.prototype.connect = function() {
     this.connected = false;
@@ -50,27 +51,27 @@ Scorebot.prototype.connect = function() {
     this.matchid = arguments[0];
     this.listid = arguments[1];
 
-    if (typeof arguments[2] !== "undefined") {
+    if (typeof arguments[2] !== 'undefined') {
         if (arguments[2]) {
-            this.emit("debug", "using old round times");
-            this.options[OPTION_MATCHROUNDTIME] = 105; // 115 after update
-            this.options[OPTION_MATCHBOMBTIME] = 35; // 40 after update
+            this.emit('debug', 'using old round times');
+            this.options[Scorebot.EOption['ROUND_TIME']] = 105; // 115 after update
+            this.options[Scorebot.EOption['BOMB_TIME']] = 35; // 40 after update
         }
     }
 
-    if (typeof arguments[3] !== "undefined") {
-        this.emit("debug", "using non-default ip: " + arguments[2]);
+    if (typeof arguments[3] !== 'undefined') {
+        this.emit('debug', 'using non-default ip: ' + arguments[2]);
         this.ip = arguments[3];
     }
 
-    if (typeof arguments[4] !== "undefined") {
-        this.emit("debug", "using non-default port: " + arguments[3]);
+    if (typeof arguments[4] !== 'undefined') {
+        this.emit('debug', 'using non-default port: ' + arguments[3]);
         this.port = arguments[4];
     }
 
-    this.socket = io(this.ip + ":" + this.port);
+    this.socket = io(this.ip + ':' + this.port);
 
-    this.socket.on("connect", this.onConnect.bind(this));
+    this.socket.on('connect', this._onConnect.bind(this));
 };
 
 Scorebot.prototype.disconnect = function() {
@@ -78,7 +79,7 @@ Scorebot.prototype.disconnect = function() {
     this.socket.disconnect();
 };
 
-Scorebot.prototype.getPlayersOnline = function() {
+Scorebot.prototype.getPlayers = function() {
     if (Object.keys(this.players).length !== 0) {
         return this.players;
     } else {
@@ -86,192 +87,12 @@ Scorebot.prototype.getPlayersOnline = function() {
     }
 };
 
-Scorebot.prototype.getPlayerByName = function(name) {
-    if (typeof this.players[name] !== "undefined") {
-        return this.players[name];
+Scorebot.prototype.getTeams = function() {
+    if (Object.keys(this.teams).length !== 0) {
+        return this.teams;
     } else {
         return false;
     }
-};
-
-Scorebot.prototype.onConnect = function() {
-    if (!this.reconnect) {
-        this.socket.on("log", this.onLog.bind(this));
-        this.socket.on("score", this.onScore.bind(this));
-        this.socket.on("scoreboard", this.onScoreboard.bind(this));
-    }
-
-    this.socket.emit("readyForMatch", this.listid);
-};
-
-Scorebot.prototype.onReconnect = function() {
-    this.reconnect = true;
-    this.socket.emit("readyForMatch", this.listid);
-};
-
-Scorebot.prototype.onLog = function(logs) {
-    if (this.getPlayersOnline()) {
-        logs = JSON.parse(logs).log.reverse();
-        logs.forEach(function(log) {
-            for (event in log) {
-                this.emit("debug", "received event: " + event);
-                switch (event) {
-                    case "Kill":
-                        this.onKill(log[event]);
-                        break;
-                    case "Assist":
-                        this.onAssist(log[event]);
-                        break;
-                    case "BombPlanted":
-                        this.onBombPlanted(log[event]);
-                        break;
-                    case "BombDefused":
-                        this.onBombDefused(log[event]);
-                        break;
-                    case "RoundStart":
-                        this.onRoundStart(log[event]);
-                        break;
-                    case "RoundEnd":
-                        this.onRoundEnd(log[event]);
-                        break;
-                    case "PlayerJoin":
-                        this.onPlayerJoin(log[event]);
-                        break;
-                    case "PlayerQuit":
-                        this.onPlayerQuit(log[event]);
-                        break;
-                    case "MapChange":
-                        this.onMapChange(log[event]);
-                        break;
-                    case "MatchStarted":
-                        this.onMatchStarted(log[event]);
-                        break;
-                    case "Restart":
-                        this.onServerRestart(log[event]);
-                        break;
-                    case "Suicide":
-                        this.onSuicide(log[event]);
-                        break;
-                    default:
-                        this.emit("debug", "unrecognized event: " + event);
-                        break;
-                }
-            }
-        }.bind(this));
-    }
-};
-
-Scorebot.prototype.onScore = function(score) {
-    this.emit("score", score);
-};
-
-Scorebot.prototype.onScoreboard = function(score) {
-    if (!this.connected) {
-        this.emit("connected");
-        this.connected = true;
-    }
-
-    updatePlayers(score.TERRORIST, score.CT, {
-        terrorist: {
-            name: score.terroristTeamName,
-            id: score.tTeamId
-        },
-        counterterrorist: {
-            name: score.ctTeamName,
-            id: score.ctTeamId
-        }
-    });
-
-    this.emit("scoreboard", score);
-};
-
-Scorebot.prototype.onKill = function(event) {
-    this.emit("player", this.player);
-
-    this.emit("kill", {
-        killer: this.getPlayerByName(event.killerName),
-        victim: this.getPlayerByName(event.victimName),
-        weapon: event.weapon,
-        headshot: event.headShot
-    });
-
-    if (event.weapon.indexOf("knife") > -1) {
-        this.knifeKills++;
-    }
-};
-
-Scorebot.prototype.onSuicide = function(event) {
-    this.emit("player", this.player);
-
-    this.emit("suicide", {
-        playerName: event.playerName,
-        playerSide: event.side
-    });
-};
-
-Scorebot.prototype.onBombPlanted = function(event) {
-    this.setTime(this.options[OPTION_MATCHBOMBTIME]);
-    this.emit("bombPlanted", {
-        player: this.getPlayerByName(event.playerName)
-    });
-};
-
-Scorebot.prototype.onBombDefused = function(event) {
-    this.emit("bombDefused", {
-        player: this.getPlayerByName(event.playerName)
-    });
-};
-
-Scorebot.prototype.onMatchStarted = function(event) {
-    this.emit("matchStart", event);
-};
-
-Scorebot.prototype.onRoundStart = function() {
-    this.setTime(this.options[OPTION_MATCHROUNDTIME]);
-    this.emit("roundStart");
-
-    this.knifeKills = 0;
-};
-
-Scorebot.prototype.onRoundEnd = function(event) {
-    var winner;
-
-    if (event.winner === "TERRORIST") {
-        winner = TERRORIST;
-    } else {
-        winner = COUNTERTERRORIST;
-    }
-
-    this.setTime(this.options[OPTION_MATCHFREEZETIME]);
-    this.emit("roundEnd", {
-        score: {
-            ct: event.counterTerroristScore,
-            t: event.terroristScore
-        },
-        winner: winner,
-        winType: event.winType,
-        knifeRound: this.knifeKills >= 5
-    });
-};
-
-Scorebot.prototype.onPlayerJoin = function(event) {
-    this.emit("playerJoin", {
-        playerName: event.playerName
-    });
-};
-
-Scorebot.prototype.onPlayerQuit = function(event) {
-    this.emit("playerQuit", {
-        player: this.getPlayerByName(event.playerName)
-    });
-};
-
-Scorebot.prototype.onServerRestart = function() {
-    this.emit("restart");
-};
-
-Scorebot.prototype.onMapChange = function(event) {
-    this.emit("mapChange", event);
 };
 
 Scorebot.prototype.setTime = function(time) {
@@ -280,12 +101,161 @@ Scorebot.prototype.setTime = function(time) {
     this.time = time;
     this.interval = setInterval(function() {
         this.time = this.time - 1;
-        this.emit("time", this.time);
+        this.emit('time', this.time);
     }.bind(this), 1000);
 };
 
-function updatePlayers(t, ct, data) {
-    t.forEach(function(player) {
+Scorebot.prototype._onConnect = function() {
+    if (!this.reconnect) {
+        this.socket.on('log', this._onLog.bind(this));
+        this.socket.on('scoreboard', this._onScoreboard.bind(this));
+    }
+
+    this.socket.emit('readyForMatch', this.listid);
+};
+
+Scorebot.prototype._onReconnect = function() {
+    this.reconnect = true;
+    this.socket.emit('readyForMatch', this.listid);
+};
+
+Scorebot.prototype._onLog = function(logs) {
+    if (this.getPlayers()) {
+        logs = JSON.parse(logs).log.reverse();
+        logs.forEach(function(log) {
+            for (event in log) {
+                this.emit('debug', 'received event: ' + event);
+                
+                switch (event) {
+                    case 'Kill':
+                    case 'Assist':
+                    case 'BombPlanted':
+                    case 'BombDefused':
+                    case 'RoundStart':
+                    case 'RoundEnd':
+                    case 'PlayerJoin':
+                    case 'PlayerQuit':
+                    case 'MapChange':
+                    case 'MatchStarted':
+                    case 'Restart':
+                    case 'Suicide':
+                        eval('this._on' + event + '(log[event])');
+                    default:
+                        this.emit('debug', 'unrecognized event: ' + event);
+                        break;
+                }
+            }
+        }.bind(this));
+    }
+};
+
+Scorebot.prototype._onScoreboard = function(scoreboard) {
+    if (!this.connected) {
+        this.connected = true;
+        this.emit('connected');
+    }
+
+    updateGame(scoreboard);
+
+    this.emit('scoreboard', scoreboard);
+};
+
+Scorebot.prototype._onKill = function(event) {
+    this.emit('kill', {
+        killer: this.getPlayers()[event.killerName],
+        victim: this.getPlayers()[event.victimName],
+        weapon: event.weapon,
+        headshot: event.headShot
+    });
+
+    if (event.weapon.indexOf('knife') > -1) {
+        this.knifeKills++;
+    }
+};
+
+Scorebot.prototype._onSuicide = function(event) {
+    this.emit('suicide', {
+        playerName: event.playerName,
+        playerSide: event.side
+    });
+};
+
+Scorebot.prototype._onBombPlanted = function(event) {
+    this.setTime(this.options[Scorebot.EOption['BOMB_TIME']]);
+    
+    this.emit('bombPlanted', {
+        player: this.getPlayers()[event.playerName]
+    });
+};
+
+Scorebot.prototype._onBombDefused = function(event) {
+    this.emit('bombDefused', {
+        player: this.getPlayers()[event.playerName]
+    });
+};
+
+Scorebot.prototype._onMatchStarted = function(event) {
+    this.emit('matchStart', event);
+};
+
+Scorebot.prototype._onRoundStart = function() {
+    this.setTime(this.options[Scorebot.EOption["ROUND_TIME"]]);
+    this.emit('roundStart');
+
+    this.knifeKills = 0;
+};
+
+Scorebot.prototype._onRoundEnd = function(event) {
+    var teams = {};
+
+    var winner;
+    if (event.winner === 'TERRORIST') {
+        winner = Scorebot.ESide['TERRORIST'];
+    } else {
+        winner = Scorebot.ESide['COUNTERTERRORIST'];
+    }
+
+    this.setTime(this.options[Scorebot.EOption["FREEZE_TIME"]]);
+    
+    var t = this.getTeams()[Scorebot.ESide['TERRORIST']];
+    var ct = this.getTeams()[Scorebot.ESide['COUNTERTERRORIST']];
+    
+    t.score = event.terroristScore
+    ct.score = event.counterTerroristScore;
+    
+    teams[Scorebot.ESide['TERRORIST']] = t;
+    teams[Scorebot.ESide['COUNTERTERRORIST']] = ct;
+    
+    this.emit('roundEnd', {
+        teams: teams,
+        winner: this.getTeams()[winner],
+        winType: event.winType,
+        knifeRound: this.knifeKills >= 5
+    });
+};
+
+Scorebot.prototype._onPlayerJoin = function(event) {
+    this.emit('playerJoin', {
+        playerName: event.playerName
+    });
+};
+
+Scorebot.prototype._onPlayerQuit = function(event) {
+    this.emit('playerQuit', {
+        player: this.getPlayers()[event.playerName]
+    });
+};
+
+Scorebot.prototype._onServerRestart = function() {
+    this.emit('restart');
+};
+
+Scorebot.prototype._onMapChange = function(event) {
+    this.emit('mapChange', event);
+};
+
+function updateGame(scoreboard) {
+    scoreboard.TERRORIST.forEach(function(player) {
         that.players[player.name] = {
             steamId: player.steamId,
             dbId: player.dbId,
@@ -296,15 +266,15 @@ function updatePlayers(t, ct, data) {
             alive: player.alive,
             rating: player.rating,
             money: player.money,
-            side: TERRORIST,
+            side: Scorebot.ESide['TERRORIST'],
             team: {
-                name: data.terrorist.name,
-                id: data.terrorist.id
+                name: scoreboard.terroristTeamName,
+                id: scoreboard.tTeamId
             }
         };
     });
 
-    ct.forEach(function(player) {
+    scoreboard.CT.forEach(function(player) {
         that.players[player.name] = {
             steamId: player.steamId,
             dbId: player.dbId,
@@ -315,13 +285,29 @@ function updatePlayers(t, ct, data) {
             alive: player.alive,
             rating: player.rating,
             money: player.money,
-            side: COUNTERTERRORIST,
+            side: Scorebot.ESide['COUNTERTERRORIST'],
             team: {
-                name: data.counterterrorist.name,
-                id: data.counterterrorist.id
+                name: scoreboard.ctTeamName,
+                id: scoreboard.ctTeamId
             }
         };
     });
+    
+    that.teams[Scorebot.ESide['TERRORIST']] = {
+        name: scoreboard.terroristTeamName,
+        id: scoreboard.tTeamId,
+        score: scoreboard.terroristScore,
+        side: Scorebot.ESide['TERRORIST']
+    };
+    
+    that.teams[Scorebot.ESide['COUNTERTERRORIST']] = {
+        name: scoreboard.ctTeamName,
+        id: scoreboard.ctTeamId,
+        score: scoreboard.counterTerroristScore,
+        side: Scorebot.ESide['COUNTERTERRORIST']
+    };
+    
+    that.scoreboard = scoreboard;
 }
 
 module.exports = Scorebot;
