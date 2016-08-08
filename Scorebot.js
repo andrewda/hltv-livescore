@@ -27,12 +27,12 @@ function Scorebot() {
     this.time = 0;
     this.map;
     this.interval;
-    
+
     this.scoreboard;
-    
+
     this.players = {};
     this.teams = {};
-    
+
     this.knifeKills = 0;
 
     this.options = {};
@@ -125,7 +125,7 @@ Scorebot.prototype._onLog = function(logs) {
         logs.forEach(function(log) {
             for (event in log) {
                 this.emit('debug', 'received event: ' + event);
-                
+
                 switch (event) {
                     case 'Kill':
                     case 'Assist':
@@ -182,7 +182,7 @@ Scorebot.prototype._onSuicide = function(event) {
 
 Scorebot.prototype._onBombPlanted = function(event) {
     this.setTime(this.options[Scorebot.EOption['BOMB_TIME']]);
-    
+
     this.emit('bombPlanted', {
         player: this.getPlayers()[event.playerName]
     });
@@ -216,16 +216,16 @@ Scorebot.prototype._onRoundEnd = function(event) {
     }
 
     this.setTime(this.options[Scorebot.EOption["FREEZE_TIME"]]);
-    
+
     var t = this.getTeams()[Scorebot.ESide['TERRORIST']];
     var ct = this.getTeams()[Scorebot.ESide['COUNTERTERRORIST']];
-    
+
     t.score = event.terroristScore
     ct.score = event.counterTerroristScore;
-    
+
     teams[Scorebot.ESide['TERRORIST']] = t;
     teams[Scorebot.ESide['COUNTERTERRORIST']] = ct;
-    
+
     this.emit('roundEnd', {
         teams: teams,
         winner: this.getTeams()[winner],
@@ -292,21 +292,21 @@ function updateGame(scoreboard) {
             }
         };
     });
-    
+
     that.teams[Scorebot.ESide['TERRORIST']] = {
         name: scoreboard.terroristTeamName,
         id: scoreboard.tTeamId,
         score: scoreboard.terroristScore,
         side: Scorebot.ESide['TERRORIST']
     };
-    
+
     that.teams[Scorebot.ESide['COUNTERTERRORIST']] = {
         name: scoreboard.ctTeamName,
         id: scoreboard.ctTeamId,
         score: scoreboard.counterTerroristScore,
         side: Scorebot.ESide['COUNTERTERRORIST']
     };
-    
+
     that.scoreboard = scoreboard;
 }
 
