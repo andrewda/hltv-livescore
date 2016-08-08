@@ -1,6 +1,7 @@
 # HLTV Livescore
 
-[![Join the chat at https://gitter.im/andrewda/hltv-scorebot](https://badges.gitter.im/andrewda/hltv-scorebot.svg)](https://gitter.im/andrewda/hltv-scorebot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![npm version](https://badge.fury.io/js/hltv-livescore.svg)](https://badge.fury.io/js/hltv-livescore)
+[![Join the chat at https://gitter.im/hltv-livescore/Lobby](https://badges.gitter.im/hltv-livescore/Lobby.svg)](https://gitter.im/hltv-livescore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/52d5dd690f734a32b47b9cdc58b558b6)](https://www.codacy.com/app/dassonville-andrew/hltv-scorebot)
 
 ## Introduction
