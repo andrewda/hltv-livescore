@@ -221,7 +221,7 @@ Scorebot.prototype._onRoundEnd = function(event) {
     var t = this.getTeams()[Scorebot.ESide['TERRORIST']];
     var ct = this.getTeams()[Scorebot.ESide['COUNTERTERRORIST']];
 
-    t.score = event.terroristScore
+    t.score = event.terroristScore;
     ct.score = event.counterTerroristScore;
 
     teams[Scorebot.ESide['TERRORIST']] = t;
