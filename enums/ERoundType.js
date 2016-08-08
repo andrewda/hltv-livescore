@@ -15,5 +15,5 @@ module.exports = {
 	"3": "Bomb_Defused",
 	"4": "Target_Bombed",
 	"5": "Target_Saved",
-	"6": "lost",
+	"6": "lost"
 };

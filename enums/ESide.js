@@ -7,5 +7,5 @@ module.exports = {
 
 	// Value-to-name mapping for convenience
 	"1": "TERRORIST",
-	"2": "COUNTERTERRORIST",
+	"2": "COUNTERTERRORIST"
 };
