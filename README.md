@@ -1,26 +1,26 @@
-# HLTV Scorebot
+# HLTV Livescore
 
 [![Join the chat at https://gitter.im/andrewda/hltv-scorebot](https://badges.gitter.im/andrewda/hltv-scorebot.svg)](https://gitter.im/andrewda/hltv-scorebot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/52d5dd690f734a32b47b9cdc58b558b6)](https://www.codacy.com/app/dassonville-andrew/hltv-scorebot)
 
 ## Introduction
 
-This version of hltv-scorebot is much like @Nols1000's [original version](https://github.com/Nols1000/hltv-scorebot), created back in May of 2015. It is packed full of features, but was never updated to the newest version of HLTV's scorebot. The purpose of this version is to be more of a wrapper for HLTV, and to incorporate all of the features available with the new scorebot.
+This module is based on [@Nols1000](https://github.com/Nols1000)'s [original version](https://github.com/Nols1000/hltv-scorebot), created back in May of 2015. It is packed full of features, but was never updated to the newest version of HLTV's scorebot. The purpose of this version is to be more of a wrapper for HLTV, and to incorporate all of the features available with the new scorebot.
 
 ## Getting started
 
 **Install with npm:**
-```
-npm install andrewda/hltv-scorebot
+```bash
+npm install andrewda/hltv-livescore
 ```
 
-**Using HLTV-Scorebot:**
+**Using HLTV Livescore:**
 ```javascript
-var Scorebot = require('hltv-scorebot');
-var sb = new Scorebot();
-sb.connect(383564, 2299033);
+var Livescore = require('hltv-livescore');
+var ls = new Livescore();
+ls.connect(383564, 2299033);
 
-sb.on('kill', function(data) {
+ls.on('kill', function(data) {
     console.log(data.killer.name, 'killed', data.victim.name, 'with', data.weapon, data.headshot ? '(headshot)' : '');
 });
 ```

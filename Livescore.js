@@ -7,13 +7,13 @@ var PORT = 10022;
 
 var that;
 
-inherits(Scorebot, EE);
+inherits(Livescore, EE);
 
-Scorebot.EOption = require('./enums/EOption.js');
-Scorebot.ERoundType = require('./enums/ERoundType.js');
-Scorebot.ESide = require('./enums/ESide.js');
+Livescore.EOption = require('./enums/EOption.js');
+Livescore.ERoundType = require('./enums/ERoundType.js');
+Livescore.ESide = require('./enums/ESide.js');
 
-function Scorebot() {
+function Livescore() {
     this.connected = false;
 
     this.matchid = 0;
@@ -37,14 +37,14 @@ function Scorebot() {
 
     this.options = {};
 
-    this.options[Scorebot.EOption['ROUND_TIME']] = 115; // 105 before update
-    this.options[Scorebot.EOption['BOMB_TIME']] = 40; // 35 before update
-    this.options[Scorebot.EOption['FREEZE_TIME']] = 15;
+    this.options[Livescore.EOption['ROUND_TIME']] = 115; // 105 before update
+    this.options[Livescore.EOption['BOMB_TIME']] = 40; // 35 before update
+    this.options[Livescore.EOption['FREEZE_TIME']] = 15;
 
     that = this;
 }
 
-Scorebot.prototype.connect = function() {
+Livescore.prototype.connect = function() {
     this.connected = false;
     this.players = {};
 
@@ -54,8 +54,8 @@ Scorebot.prototype.connect = function() {
     if (typeof arguments[2] !== 'undefined') {
         if (arguments[2]) {
             this.emit('debug', 'using old round times');
-            this.options[Scorebot.EOption['ROUND_TIME']] = 105; // 115 after update
-            this.options[Scorebot.EOption['BOMB_TIME']] = 35; // 40 after update
+            this.options[Livescore.EOption['ROUND_TIME']] = 105; // 115 after update
+            this.options[Livescore.EOption['BOMB_TIME']] = 35; // 40 after update
         }
     }
 
@@ -74,12 +74,12 @@ Scorebot.prototype.connect = function() {
     this.socket.on('connect', this._onConnect.bind(this));
 };
 
-Scorebot.prototype.disconnect = function() {
+Livescore.prototype.disconnect = function() {
     this.connected = false;
     this.socket.disconnect();
 };
 
-Scorebot.prototype.getPlayers = function() {
+Livescore.prototype.getPlayers = function() {
     if (Object.keys(this.players).length !== 0) {
         return this.players;
     } else {
@@ -87,7 +87,7 @@ Scorebot.prototype.getPlayers = function() {
     }
 };
 
-Scorebot.prototype.getTeams = function() {
+Livescore.prototype.getTeams = function() {
     if (Object.keys(this.teams).length !== 0) {
         return this.teams;
     } else {
@@ -95,7 +95,7 @@ Scorebot.prototype.getTeams = function() {
     }
 };
 
-Scorebot.prototype.setTime = function(time) {
+Livescore.prototype.setTime = function(time) {
     clearInterval(this.interval);
 
     this.time = time;
@@ -105,7 +105,7 @@ Scorebot.prototype.setTime = function(time) {
     }.bind(this), 1000);
 };
 
-Scorebot.prototype._onConnect = function() {
+Livescore.prototype._onConnect = function() {
     if (!this.reconnect) {
         this.socket.on('log', this._onLog.bind(this));
         this.socket.on('scoreboard', this._onScoreboard.bind(this));
@@ -114,12 +114,12 @@ Scorebot.prototype._onConnect = function() {
     this.socket.emit('readyForMatch', this.listid);
 };
 
-Scorebot.prototype._onReconnect = function() {
+Livescore.prototype._onReconnect = function() {
     this.reconnect = true;
     this.socket.emit('readyForMatch', this.listid);
 };
 
-Scorebot.prototype._onLog = function(logs) {
+Livescore.prototype._onLog = function(logs) {
     if (this.getPlayers()) {
         logs = JSON.parse(logs).log.reverse();
         logs.forEach(function(log) {
@@ -150,7 +150,7 @@ Scorebot.prototype._onLog = function(logs) {
     }
 };
 
-Scorebot.prototype._onScoreboard = function(scoreboard) {
+Livescore.prototype._onScoreboard = function(scoreboard) {
     if (!this.connected) {
         this.connected = true;
         this.emit('connected');
@@ -161,7 +161,7 @@ Scorebot.prototype._onScoreboard = function(scoreboard) {
     this.emit('scoreboard', scoreboard);
 };
 
-Scorebot.prototype._onKill = function(event) {
+Livescore.prototype._onKill = function(event) {
     this.emit('kill', {
         killer: this.getPlayers()[event.killerName],
         victim: this.getPlayers()[event.victimName],
@@ -174,58 +174,58 @@ Scorebot.prototype._onKill = function(event) {
     }
 };
 
-Scorebot.prototype._onSuicide = function(event) {
+Livescore.prototype._onSuicide = function(event) {
     this.emit('suicide', {
         playerName: event.playerName,
         playerSide: event.side
     });
 };
 
-Scorebot.prototype._onBombPlanted = function(event) {
-    this.setTime(this.options[Scorebot.EOption['BOMB_TIME']]);
+Livescore.prototype._onBombPlanted = function(event) {
+    this.setTime(this.options[Livescore.EOption['BOMB_TIME']]);
 
     this.emit('bombPlanted', {
         player: this.getPlayers()[event.playerName]
     });
 };
 
-Scorebot.prototype._onBombDefused = function(event) {
+Livescore.prototype._onBombDefused = function(event) {
     this.emit('bombDefused', {
         player: this.getPlayers()[event.playerName]
     });
 };
 
-Scorebot.prototype._onMatchStarted = function(event) {
+Livescore.prototype._onMatchStarted = function(event) {
     this.emit('matchStart', event);
 };
 
-Scorebot.prototype._onRoundStart = function() {
-    this.setTime(this.options[Scorebot.EOption["ROUND_TIME"]]);
+Livescore.prototype._onRoundStart = function() {
+    this.setTime(this.options[Livescore.EOption["ROUND_TIME"]]);
     this.emit('roundStart');
 
     this.knifeKills = 0;
 };
 
-Scorebot.prototype._onRoundEnd = function(event) {
+Livescore.prototype._onRoundEnd = function(event) {
     var teams = {};
 
     var winner;
     if (event.winner === 'TERRORIST') {
-        winner = Scorebot.ESide['TERRORIST'];
+        winner = Livescore.ESide['TERRORIST'];
     } else {
-        winner = Scorebot.ESide['COUNTERTERRORIST'];
+        winner = Livescore.ESide['COUNTERTERRORIST'];
     }
 
-    this.setTime(this.options[Scorebot.EOption["FREEZE_TIME"]]);
+    this.setTime(this.options[Livescore.EOption["FREEZE_TIME"]]);
 
-    var t = this.getTeams()[Scorebot.ESide['TERRORIST']];
-    var ct = this.getTeams()[Scorebot.ESide['COUNTERTERRORIST']];
+    var t = this.getTeams()[Livescore.ESide['TERRORIST']];
+    var ct = this.getTeams()[Livescore.ESide['COUNTERTERRORIST']];
 
     t.score = event.terroristScore;
     ct.score = event.counterTerroristScore;
 
-    teams[Scorebot.ESide['TERRORIST']] = t;
-    teams[Scorebot.ESide['COUNTERTERRORIST']] = ct;
+    teams[Livescore.ESide['TERRORIST']] = t;
+    teams[Livescore.ESide['COUNTERTERRORIST']] = ct;
 
     this.emit('roundEnd', {
         teams: teams,
@@ -235,23 +235,23 @@ Scorebot.prototype._onRoundEnd = function(event) {
     });
 };
 
-Scorebot.prototype._onPlayerJoin = function(event) {
+Livescore.prototype._onPlayerJoin = function(event) {
     this.emit('playerJoin', {
         playerName: event.playerName
     });
 };
 
-Scorebot.prototype._onPlayerQuit = function(event) {
+Livescore.prototype._onPlayerQuit = function(event) {
     this.emit('playerQuit', {
         player: this.getPlayers()[event.playerName]
     });
 };
 
-Scorebot.prototype._onServerRestart = function() {
+Livescore.prototype._onServerRestart = function() {
     this.emit('restart');
 };
 
-Scorebot.prototype._onMapChange = function(event) {
+Livescore.prototype._onMapChange = function(event) {
     this.emit('mapChange', event);
 };
 
@@ -267,7 +267,7 @@ function updateGame(scoreboard) {
             alive: player.alive,
             rating: player.rating,
             money: player.money,
-            side: Scorebot.ESide['TERRORIST'],
+            side: Livescore.ESide['TERRORIST'],
             team: {
                 name: scoreboard.terroristTeamName,
                 id: scoreboard.tTeamId
@@ -286,7 +286,7 @@ function updateGame(scoreboard) {
             alive: player.alive,
             rating: player.rating,
             money: player.money,
-            side: Scorebot.ESide['COUNTERTERRORIST'],
+            side: Livescore.ESide['COUNTERTERRORIST'],
             team: {
                 name: scoreboard.ctTeamName,
                 id: scoreboard.ctTeamId
@@ -294,21 +294,21 @@ function updateGame(scoreboard) {
         };
     });
 
-    that.teams[Scorebot.ESide['TERRORIST']] = {
+    that.teams[Livescore.ESide['TERRORIST']] = {
         name: scoreboard.terroristTeamName,
         id: scoreboard.tTeamId,
         score: scoreboard.terroristScore,
-        side: Scorebot.ESide['TERRORIST']
+        side: Livescore.ESide['TERRORIST']
     };
 
-    that.teams[Scorebot.ESide['COUNTERTERRORIST']] = {
+    that.teams[Livescore.ESide['COUNTERTERRORIST']] = {
         name: scoreboard.ctTeamName,
         id: scoreboard.ctTeamId,
         score: scoreboard.counterTerroristScore,
-        side: Scorebot.ESide['COUNTERTERRORIST']
+        side: Livescore.ESide['COUNTERTERRORIST']
     };
 
     that.scoreboard = scoreboard;
 }
 
-module.exports = Scorebot;
+module.exports = Livescore;
