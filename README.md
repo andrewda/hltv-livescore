@@ -11,7 +11,7 @@ This module is based on [@Nols1000](https://github.com/Nols1000)'s [original ver
 
 **Install with npm:**
 ```bash
-npm install andrewda/hltv-livescore
+$ npm install hltv-livescore
 ```
 
 **Using HLTV Livescore:**
@@ -27,7 +27,7 @@ ls.on('kill', function(data) {
 
 ## Methods
 
-- `connect(matchid, listid, url [optional], port [optional], oldtime [optional])`
+- `connect(matchid, listid[, url][, port][, oldtime])`
     - `matchid` identifier for the wanted match. [andrewda](https://github.com/andrewda) made a module to get the matchid <https://github.com/andrewda/hltv-live-games>
     - `listid` secondary identifier for the wanted match. It can be found in the URL immediatly after `/match/` or on the HLTV page when the game goes live.
        - The list id for http://www.hltv.org/match/2298994-maxandrelax-arcade-dngit-2000-weekly-cup-24 would be 2298994.
