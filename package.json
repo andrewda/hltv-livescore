@@ -1,44 +1,26 @@
 {
   "name": "hltv-livescore",
   "version": "0.9.0",
-  "description": "An HLTV scorebot wrapper.",
+  "description": "An HLTV scorebot wrapper",
+  "keywords": ["hltv", "scorebot", "live", "score"],
   "main": "Livescore.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "license": "MIT",
+  "author": {
+    "name": "Andrew Dassonville",
+    "email": "dassonville.andrew@gmail.com",
+    "url": "http://drewbits.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andrewda/hltv-livescore.git"
+    "url": "https://github.com/andrewda/hltv-livescore.git"
   },
   "dependencies": {
-    "socket.io-client": "~1.3.5"
+    "socket.io-client": "^1.3.5"
   },
-  "keywords": [
-    "hltv",
-    "scorebot",
-    "live",
-    "score",
-    "node",
-    "js"
-  ],
-  "author": {
-    "name": "Andrew Dassonville (andrewda)"
-  },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/andrewda/hltv-livescore/issues"
   },
-  "homepage": "http://drewbits.com",
-  "_id": "hltv-livescore@0.9.0",
-  "_npmUser": {
-    "name": "andrewda",
-    "email": "dassonville.andrew@gmail.com"
-  },
-  "maintainers": [
-    {
-      "name": "andrewda",
-      "email": "dassonville.andrew@gmail.com"
-    }
-  ],
-  "directories": {}
+  "engines": {
+    "node": ">=4.1.1"
+  }
 }
