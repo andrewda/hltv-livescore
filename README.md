@@ -18,76 +18,108 @@ This module is based on [@Nols1000](https://github.com/Nols1000)'s [original ver
 $ npm install hltv-livescore
 ```
 
-**Using HLTV Livescore:**
+**Usage:**
 ```javascript
 var Livescore = require('hltv-livescore');
-var ls = new Livescore();
-ls.connect(383564, 2299033);
+var live = new Livescore({
+    matchid: 383564,
+    listid: 2299033
+});
 
-ls.on('kill', function(data) {
+live.on('kill', function(data) {
     console.log(data.killer.name, 'killed', data.victim.name, 'with', data.weapon, data.headshot ? '(headshot)' : '');
 });
 ```
 
 ## Methods
 
-- `connect(matchid, listid[, url][, port][, oldtime])`
-    - `matchid` identifier for the wanted match. [andrewda](https://github.com/andrewda) made a module to get the matchid <https://github.com/andrewda/hltv-live-games>
-    - `listid` secondary identifier for the wanted match. It can be found in the URL immediatly after `/match/` or on the HLTV page when the game goes live.
-       - The list id for http://www.hltv.org/match/2298994-maxandrelax-arcade-dngit-2000-weekly-cup-24 would be 2298994.
-    - `url` [OPTIONAL] the ip of the scorebot server (default `http://scorebot2.hltv.org`).
-    - `port` [OPTIONAL] the port of the scorebot server (default `10022`).
-    - `oldtime` [OPTIONAL] if we want to use the old match time (default `false`)
-- `getPlayers()`
-    - returns all players connected
-- `getTeams()`
-    - returns both teams connected
-- `on(event, callback)`
+### getPlayers()
+
+Returns all players connected.
+
+### getTeams()
+
+Returns both teams connected.
 
 ## Events
-- `time`
-    - `seconds`: the time displayed on the timer in seconds
-- `scoreboard`
-    - `TERRORIST` / `CT`: an array of players on the specified team
-    - `terroristMatchHistory` / `ctMatchHistory`
-        - `firstHalf` / `secondHalf` / `overtime`
-            - `type`: the type of round
-            - `roundOrdinal`: the round number
-    - `bombPlanted`: `true` if the bomb is planted
-    - `mapName`: the map being played
-    - `currentRound`: the current round number
-    - `terroristTeamName`: the id of the T team
-    - `ctTeamName`: the id of the CT team
-    - `terroristScore`: the score of the T team
-    - `counterTerroristScore`: the score of the CT team
-    - `tTeamId`: the id of the T team
-    - `ctTeamId`: the id of the CT team
-- `kill`
-    - `killer`: a player object of the killer
-    - `victim`: a player object of the victim
-    - `weapon`: the weapon used
-    - `headshot`: `true` if the kill was a headshot
-- `bombPlanted`
-    - `player`: a player object of the bomb planter
-- `bombDefused`
-    - `player`: a player object of the bomb defuser
-- `roundStart`
-- `roundEnd`
-    - `teams`: a list of
-    - `winner`: the team that won
-    - `winType`: how the team won
-    - `knifeRound`: if we think the round was a knife round (>5 kills)
-- `playerJoin`
-    - `playerName`: the player's name
-- `playerQuit`
-    - `player`: a player object of the player who quit
-- `mapChange`
-    - `map`: the new map
-- `restart`
+
+Events emit an object containing the parameters listed under each event.
+
+### time
+- `seconds` - The time displayed on the timer in seconds
+
+Emitted every time the timer on the scoreboard is updated.
+
+### scoreboard
+- `TERRORIST` / `CT` - an array of players on the specified team
+- `terroristMatchHistory` / `ctMatchHistory`
+    - `firstHalf` / `secondHalf` / `overtime`
+        - `type` - The type of round
+        - `roundOrdinal` - The round number
+- `bombPlanted` - `true` if the bomb is planted
+- `mapName` - The map being played
+- `currentRound` - The current round number
+- `terroristTeamName` - The id of the T team
+- `ctTeamName` - The id of the CT team
+- `terroristScore` - The score of the T team
+- `counterTerroristScore` - The score of the CT team
+- `tTeamId` - The id of the T team
+- `ctTeamId` - The id of the CT team
+
+Emitted whenever HLTV sends us a scoreboard update. The scoreboard may not be any different from the last update.
+
+### kill
+- `killer` - The player object of the killer
+- `victim` - The player object of the victim
+- `weapon` - The weapon used
+- `headshot` - `true` if the kill was a headshot
+
+Emitted after every kill.
+
+### bombPlanted
+- `player` - The player object of the bomb planter
+
+Emitted when the bomb is planted.
+
+### bombDefused
+- `player` - The player object of the bomb defuser
+
+Emitted when the bomb is defused.
+
+### roundStart
+
+Emitted at the start of every round.
+
+### roundEnd
+- `teams` - The list of teams
+- `winner` - The team that won
+- `winType` - How the team won
+- `knifeRound` - If we think the round was a knife round (>=5 knife kills)
+
+Emitted at the end of every round.
+
+### playerJoin
+- `playerName` - The player's name
+
+Emitted when a player joins the server.
+
+### playerQuit
+- `player` - The player object of the player who quit
+
+Emitted when a player leaves the server.
+
+### mapChange
+- `map` - The new map
+
+Emitted when the map is changed.
+
+### restart
+
+Emitted when the score is restarted
 
 ## Examples
 
-To be done
+To be completed
 
 <!-- Badge URLs -->
 
