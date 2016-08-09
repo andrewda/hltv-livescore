@@ -7,15 +7,15 @@ var PORT = 10022;
 
 var that;
 
-function Livescore() {
+function Livescore(options) {
     this.connected = false;
 
-    this.matchid = 0;
-    this.listid = 0;
-    this.ip = CONNECTION;
-    this.port = PORT;
+    this.matchid = options.matchid;
+    this.listid = options.listid;
+    this.url = options.url || CONNECTION;
+    this.port = options.url || PORT;
 
-    this.socket = null;
+    this.socket = io(this.url + ':' + this.port);
     this.reconnect = false;
 
     this.time = 0;
@@ -31,9 +31,11 @@ function Livescore() {
 
     this.options = {};
 
-    this.options[Livescore.EOption['ROUND_TIME']] = 115; // 105 before update
-    this.options[Livescore.EOption['BOMB_TIME']] = 40; // 35 before update
-    this.options[Livescore.EOption['FREEZE_TIME']] = 15;
+    this.options[Livescore.EOption['ROUND_TIME']] = options.roundTime || 115; // 105 before update
+    this.options[Livescore.EOption['BOMB_TIME']] = options.bombTime || 40; // 35 before update
+    this.options[Livescore.EOption['FREEZE_TIME']] = options.freezeTime || 15;
+
+    this.socket.on('connect', this._onConnect.bind(this));
 
     that = this;
 }
@@ -43,36 +45,6 @@ inherits(Livescore, EE);
 Livescore.EOption = require('./enums/EOption.js');
 Livescore.ERoundType = require('./enums/ERoundType.js');
 Livescore.ESide = require('./enums/ESide.js');
-
-Livescore.prototype.connect = function() {
-    this.connected = false;
-    this.players = {};
-
-    this.matchid = arguments[0];
-    this.listid = arguments[1];
-
-    if (typeof arguments[2] !== 'undefined') {
-        if (arguments[2]) {
-            this.emit('debug', 'using old round times');
-            this.options[Livescore.EOption['ROUND_TIME']] = 105; // 115 after update
-            this.options[Livescore.EOption['BOMB_TIME']] = 35; // 40 after update
-        }
-    }
-
-    if (typeof arguments[3] !== 'undefined') {
-        this.emit('debug', 'using non-default ip: ' + arguments[2]);
-        this.ip = arguments[3];
-    }
-
-    if (typeof arguments[4] !== 'undefined') {
-        this.emit('debug', 'using non-default port: ' + arguments[3]);
-        this.port = arguments[4];
-    }
-
-    this.socket = io(this.ip + ':' + this.port);
-
-    this.socket.on('connect', this._onConnect.bind(this));
-};
 
 Livescore.prototype.disconnect = function() {
     this.connected = false;
