@@ -84,34 +84,37 @@ Livescore.prototype._onReconnect = function() {
 };
 
 Livescore.prototype._onLog = function(logs) {
-    if (this.getPlayers()) {
-        logs = JSON.parse(logs).log.reverse();
-        logs.forEach(function(log) {
-            for (event in log) {
-                this.emit('debug', 'received event: ' + event);
+    this.getPlayers(function(players) {
+        if (Object.keys(players).length) {
+            logs = JSON.parse(logs).log.reverse();
+            logs.forEach(function(log) {
+                for (event in log) {
+                    that.emit('debug', 'received event: ' + event);
 
-                switch (event) {
-                    case 'Kill':
-                    case 'Assist':
-                    case 'BombPlanted':
-                    case 'BombDefused':
-                    case 'RoundStart':
-                    case 'RoundEnd':
-                    case 'PlayerJoin':
-                    case 'PlayerQuit':
-                    case 'MapChange':
-                    case 'MatchStarted':
-                    case 'Restart':
-                    case 'Suicide':
-                        this['_on' + event](log[event]);
-                        break;
-                    default:
-                        this.emit('debug', 'unrecognized event: ' + event);
-                        break;
+                    switch (event) {
+                        case 'Kill':
+                        case 'Assist':
+                        case 'BombPlanted':
+                        case 'BombDefused':
+                        case 'RoundStart':
+                        case 'RoundEnd':
+                        case 'PlayerJoin':
+                        case 'PlayerQuit':
+                        case 'MapChange':
+                        case 'MatchStarted':
+                        case 'Restart':
+                        case 'Suicide':
+                            console.log('_on' + event)
+                            that['_on' + event](log[event]);
+                            break;
+                        default:
+                            that.emit('debug', 'unrecognized event: ' + event);
+                            break;
+                    }
                 }
-            }
-        }.bind(this));
-    }
+            }.bind(this));
+        }
+    });
 };
 
 Livescore.prototype._onScoreboard = function(scoreboard) {
@@ -126,11 +129,13 @@ Livescore.prototype._onScoreboard = function(scoreboard) {
 };
 
 Livescore.prototype._onKill = function(event) {
-    this.emit('kill', {
-        killer: this.getPlayers()[event.killerName],
-        victim: this.getPlayers()[event.victimName],
-        weapon: event.weapon,
-        headshot: event.headShot
+    this.getPlayers(function(players) {
+        that.emit('kill', {
+            killer: players[event.killerName],
+            victim: players[event.victimName],
+            weapon: event.weapon,
+            headshot: event.headShot
+        });
     });
 
     if (event.weapon.indexOf('knife') > -1) {
@@ -148,14 +153,18 @@ Livescore.prototype._onSuicide = function(event) {
 Livescore.prototype._onBombPlanted = function(event) {
     this.setTime(this.options[Livescore.EOption['BOMB_TIME']]);
 
-    this.emit('bombPlanted', {
-        player: this.getPlayers()[event.playerName]
+    this.getPlayers(function(players) {
+        that.emit('bombPlanted', {
+            player: players[event.playerName]
+        });
     });
 };
 
 Livescore.prototype._onBombDefused = function(event) {
-    this.emit('bombDefused', {
-        player: this.getPlayers()[event.playerName]
+    this.getPlayers(function(players) {
+        that.emit('bombDefused', {
+            player: players[event.playerName]
+        });
     });
 };
 
@@ -166,6 +175,7 @@ Livescore.prototype._onMatchStarted = function(event) {
 Livescore.prototype._onRoundStart = function() {
     this.setTime(this.options[Livescore.EOption["ROUND_TIME"]]);
     this.emit('roundStart');
+    console.log('roundStart')
 
     this.knifeKills = 0;
 };
@@ -182,20 +192,24 @@ Livescore.prototype._onRoundEnd = function(event) {
 
     this.setTime(this.options[Livescore.EOption["FREEZE_TIME"]]);
 
-    var t = this.getTeams()[Livescore.ESide['TERRORIST']];
-    var ct = this.getTeams()[Livescore.ESide['COUNTERTERRORIST']];
+    this.getTeams(function(teams) {
+        var t = teams[Livescore.ESide['TERRORIST']];
+        var ct = teams[Livescore.ESide['COUNTERTERRORIST']];
 
-    t.score = event.terroristScore;
-    ct.score = event.counterTerroristScore;
+        if (t && ct) {
+            t.score = event.terroristScore;
+            ct.score = event.counterTerroristScore;
 
-    teams[Livescore.ESide['TERRORIST']] = t;
-    teams[Livescore.ESide['COUNTERTERRORIST']] = ct;
+            teams[Livescore.ESide['TERRORIST']] = t;
+            teams[Livescore.ESide['COUNTERTERRORIST']] = ct;
 
-    this.emit('roundEnd', {
-        teams: teams,
-        winner: this.getTeams()[winner],
-        winType: event.winType,
-        knifeRound: this.knifeKills >= 5
+            that.emit('roundEnd', {
+                teams: teams,
+                winner: teams[winner],
+                winType: event.winType,
+                knifeRound: this.knifeKills >= 5
+            });
+        }
     });
 };
 
@@ -206,8 +220,10 @@ Livescore.prototype._onPlayerJoin = function(event) {
 };
 
 Livescore.prototype._onPlayerQuit = function(event) {
-    this.emit('playerQuit', {
-        player: this.getPlayers()[event.playerName]
+    this.getPlayers(function(players) {
+        that.emit('playerQuit', {
+            player: players[event.playerName]
+        });
     });
 };
 
