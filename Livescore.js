@@ -139,7 +139,7 @@ Livescore.prototype._onLog = function(logs) {
                     case 'MatchStarted':
                     case 'Restart':
                     case 'Suicide':
-                        eval('this._on' + event + '(log[event])');
+                        this['_on' + event](log[event]);
                         break;
                     default:
                         this.emit('debug', 'unrecognized event: ' + event);
