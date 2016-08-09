@@ -1,8 +1,11 @@
 # HLTV Livescore
 
-[![npm version](https://badge.fury.io/js/hltv-livescore.svg)](https://badge.fury.io/js/hltv-livescore)
-[![Join the chat at https://gitter.im/hltv-livescore/Lobby](https://badges.gitter.im/hltv-livescore/Lobby.svg)](https://gitter.im/hltv-livescore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/52d5dd690f734a32b47b9cdc58b558b6)](https://www.codacy.com/app/dassonville-andrew/hltv-scorebot)
+[![NPM Version][npm-img]][npm-url]
+[![Release][release-img]][release-url]
+[![Downloads][downloads-img]][npm-url]
+[![Codacy][codacy-img]][codacy-url]
+[![Gitter][gitter-img]][gitter-url]
+[![License][license-img]][license-url]
 
 ## Introduction
 
@@ -85,3 +88,18 @@ ls.on('kill', function(data) {
 ## Examples
 
 To be done
+
+<!-- Badge URLs -->
+
+[codacy-img]:    https://img.shields.io/codacy/grade/2af21149af4445768438cb611c76f310.svg?style=flat-square
+[codacy-url]:    https://www.codacy.com/app/dassonville-andrew/hltv-livescore
+[downloads-img]: https://img.shields.io/npm/dm/hltv-livescore.svg?style=flat-square
+[downloads-url]: https://www.npmjs.com/package/hltv-livescore
+[npm-img]:       https://img.shields.io/npm/v/hltv-livescore.svg?style=flat-square
+[npm-url]:       https://www.npmjs.com/package/hltv-livescore
+[gitter-img]:    https://img.shields.io/gitter/room/hltv-livescore/Lobby.svg?style=flat-square
+[gitter-url]:    https://gitter.im/hltv-livescore/Lobby
+[release-img]:   https://img.shields.io/github/release/andrewda/hltv-livescore.svg?style=flat-square
+[release-url]:   https://github.com/andrewda/hltv-livescore/releases
+[license-img]:   https://img.shields.io/npm/l/hltv-livescore.svg?style=flat-square
+[license-url]:   https://opensource.org/licenses/MIT
