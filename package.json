@@ -1,6 +1,6 @@
 {
   "name": "hltv-livescore",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "description": "An HLTV scorebot wrapper",
   "keywords": ["hltv", "scorebot", "live", "score"],
   "main": "Livescore.js",
