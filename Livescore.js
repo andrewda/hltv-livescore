@@ -219,7 +219,7 @@ Livescore.prototype._onPlayerQuit = function(event) {
     });
 };
 
-Livescore.prototype._onServerRestart = function() {
+Livescore.prototype._onRestart = function() {
     this.emit('restart');
 };
 
