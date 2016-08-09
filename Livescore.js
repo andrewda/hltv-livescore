@@ -51,20 +51,12 @@ Livescore.prototype.disconnect = function() {
     this.socket.disconnect();
 };
 
-Livescore.prototype.getPlayers = function() {
-    if (Object.keys(this.players).length !== 0) {
-        return this.players;
-    } else {
-        return false;
-    }
+Livescore.prototype.getPlayers = function(callback) {
+    callback(this.players);
 };
 
-Livescore.prototype.getTeams = function() {
-    if (Object.keys(this.teams).length !== 0) {
-        return this.teams;
-    } else {
-        return false;
-    }
+Livescore.prototype.getTeams = function(callback) {
+    callback(this.teams);
 };
 
 Livescore.prototype.setTime = function(time) {

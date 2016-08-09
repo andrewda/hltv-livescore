@@ -33,7 +33,6 @@ live.on('kill', function(data) {
 ## Methods
 
 ### Constructor(options)
-
 - `options` - An object containing at least the required options.
     - `matchid` - Required. The game's matchid.
     - `listid` - Required. The game's listid.
@@ -42,13 +41,17 @@ live.on('kill', function(data) {
 
 Constructs a new `Livescore`.
 
-### getPlayers()
+### getPlayers(callback)
+- `callback` - Required. Called with an object of players.
+    - `players` - An object containing all the players connected to the server, with their name as the key.
 
-Returns all players connected.
+Retrieve all players connected to the server.
 
-### getTeams()
+### getTeams(callback)
+- `callback` - Required. Called with an object of players.
+    - `teams` - An object containing both teams connected to the server.
 
-Returns both teams connected.
+Retrieve both teams connected to the server.
 
 ## Events
 
