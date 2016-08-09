@@ -32,6 +32,16 @@ live.on('kill', function(data) {
 
 ## Methods
 
+### Constructor(options)
+
+- `options` - An object containing at least the required options.
+    - `matchid` - Required. The game's matchid.
+    - `listid` - Required. The game's listid.
+    - `url` - Optional. The URL to listen on. Defaults to `http://scorebot2.hltv.org`.
+    - `port` - Optional. The port to listen on. Defaults to `10022`.
+
+Constructs a new `Livescore`.
+
 ### getPlayers()
 
 Returns all players connected.
