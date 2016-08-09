@@ -50,7 +50,7 @@ Events emit an object containing the parameters listed under each event.
 Emitted every time the timer on the scoreboard is updated.
 
 ### scoreboard
-- `TERRORIST` / `CT` - an array of players on the specified team
+- `TERRORIST` / `CT` - An array of players on the specified team
 - `terroristMatchHistory` / `ctMatchHistory`
     - `firstHalf` / `secondHalf` / `overtime`
         - `type` - The type of round
