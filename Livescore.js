@@ -13,7 +13,7 @@ function Livescore(options) {
     this.matchid = options.matchid;
     this.listid = options.listid;
     this.url = options.url || CONNECTION;
-    this.port = options.url || PORT;
+    this.port = options.port || PORT;
 
     this.socket = io(this.url + ':' + this.port);
     this.reconnect = false;
