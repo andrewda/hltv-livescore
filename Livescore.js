@@ -27,6 +27,7 @@ function Livescore(options) {
     this.players = {};
     this.teams = {};
 
+    this.kills = 0;
     this.knifeKills = 0;
 
     this.options = {};
@@ -138,6 +139,7 @@ Livescore.prototype._onKill = function(event) {
         });
     });
 
+    this.kills++;
     if (event.weapon.indexOf('knife') > -1) {
         this.knifeKills++;
     }
@@ -203,11 +205,15 @@ Livescore.prototype._onRoundEnd = function(event) {
             teams[Livescore.ESide['TERRORIST']] = t;
             teams[Livescore.ESide['COUNTERTERRORIST']] = ct;
 
+            // If at least 80% of the kills are knife kills, count it as a knife
+            // round. Sometimes players will have pistols on knife rounds and
+            // kill teammates after the round is over, so this takes that into
+            // account.
             that.emit('roundEnd', {
                 teams: teams,
                 winner: teams[winner],
                 winType: event.winType,
-                knifeRound: this.knifeKills >= 5
+                knifeRound: (this.knifeKills/this.kills) >= 0.8
             });
         }
     });
