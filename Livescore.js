@@ -7,12 +7,6 @@ var PORT = 10022;
 
 var that;
 
-inherits(Livescore, EE);
-
-Livescore.EOption = require('./enums/EOption.js');
-Livescore.ERoundType = require('./enums/ERoundType.js');
-Livescore.ESide = require('./enums/ESide.js');
-
 function Livescore() {
     this.connected = false;
 
@@ -43,6 +37,12 @@ function Livescore() {
 
     that = this;
 }
+
+inherits(Livescore, EE);
+
+Livescore.EOption = require('./enums/EOption.js');
+Livescore.ERoundType = require('./enums/ERoundType.js');
+Livescore.ESide = require('./enums/ESide.js');
 
 Livescore.prototype.connect = function() {
     this.connected = false;
