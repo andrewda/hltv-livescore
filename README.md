@@ -54,9 +54,15 @@ Retrieve all players connected to the server.
 Retrieve both teams connected to the server.
 
 ### setTime(time)
-- `time` - The time to set the scoreboard to (in seconds)
+- `time` - Required. The time to set the scoreboard to (in seconds)
 
 Set the scoreboard to a new time.
+
+### getTime(callback)
+- `callback` - Required. Called with the remaining time.
+    - `time` - The time remaining in seconds as displayed on the scoreboard.
+
+Retrieve the time remaining.
 
 ## Events
 

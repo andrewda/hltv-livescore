@@ -70,6 +70,10 @@ Livescore.prototype.setTime = function(time) {
     }.bind(this), 1000);
 };
 
+Livescore.prototype.getTime = function(callback) {
+    callback(this.time);
+};
+
 Livescore.prototype._onConnect = function() {
     if (!this.reconnect) {
         this.socket.on('log', this._onLog.bind(this));
