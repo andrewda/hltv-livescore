@@ -105,7 +105,6 @@ Livescore.prototype._onLog = function(logs) {
                         case 'MatchStarted':
                         case 'Restart':
                         case 'Suicide':
-                            console.log('_on' + event)
                             that['_on' + event](log[event]);
                             break;
                         default:
@@ -177,7 +176,6 @@ Livescore.prototype._onMatchStarted = function(event) {
 Livescore.prototype._onRoundStart = function() {
     this.setTime(this.options[Livescore.EOption["ROUND_TIME"]]);
     this.emit('roundStart');
-    console.log('roundStart')
 
     this.knifeKills = 0;
 };
