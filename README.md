@@ -53,6 +53,11 @@ Retrieve all players connected to the server.
 
 Retrieve both teams connected to the server.
 
+### setTime(time)
+- `time` - The time to set the scoreboard to (in seconds)
+
+Set the scoreboard to a new time.
+
 ## Events
 
 Events emit an object containing the parameters listed under each event.
