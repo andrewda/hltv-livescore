@@ -241,5 +241,5 @@ To be completed
 [npm-url]:       https://www.npmjs.com/package/hltv-livescore
 [gitter-img]:    https://img.shields.io/gitter/room/hltv-livescore/Lobby.svg?style=flat-square
 [gitter-url]:    https://gitter.im/hltv-livescore/Lobby
-[travis-img]:    https://img.shields.io/travis/andrewda/hltv-livescore.svg
+[travis-img]:    https://img.shields.io/travis/andrewda/hltv-livescore.svg?style=flat-square
 [travis-url]:    https://travis-ci.org/andrewda/hltv-livescore
