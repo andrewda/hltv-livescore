@@ -6,6 +6,16 @@
 [![Gitter][gitter-img]][gitter-url]
 [![License][license-img]][license-url]
 
+## Contents
+
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+- [Methods](#methods)
+- [Events](#events)
+- [Classes](#classes)
+- [Enums](#enums)
+- [Examples](#examples)
+
 ## Introduction
 
 This module is based on [@Nols1000](https://github.com/Nols1000)'s [original version](https://github.com/Nols1000/hltv-scorebot), created back in May of 2015. It is packed full of features, but was never updated to the newest version of HLTV's scorebot. The purpose of this version is to be more of a wrapper for HLTV, and to incorporate all of the features available with the new scorebot.
@@ -74,20 +84,10 @@ Events emit an object containing the parameters listed under each event.
 Emitted every time the timer on the scoreboard is updated.
 
 ### scoreboard
-- `TERRORIST` / `CT` - An array of players on the specified team
-- `terroristMatchHistory` / `ctMatchHistory`
-    - `firstHalf` / `secondHalf` / `overtime`
-        - `type` - The type of round
-        - `roundOrdinal` - The round number
+- `teams` - An object containing the two teams' objects
+- `map` - The current map
 - `bombPlanted` - `true` if the bomb is planted
-- `mapName` - The map being played
 - `currentRound` - The current round number
-- `terroristTeamName` - The id of the T team
-- `ctTeamName` - The id of the CT team
-- `terroristScore` - The score of the T team
-- `counterTerroristScore` - The score of the CT team
-- `tTeamId` - The id of the T team
-- `ctTeamId` - The id of the CT team
 
 Emitted whenever HLTV sends us a scoreboard update. The scoreboard may not be any different from the last update.
 
@@ -140,6 +140,87 @@ Emitted when the map is changed.
 ### restart
 
 Emitted when the score is restarted
+
+## Classes
+
+### Player
+- `steamid` - A [SteamID](https://github.com/DoctorMcKay/node-steamid) object
+- `hltvid` - The player's HLTV id
+- `name` - The player's username
+- `alive` - `true` if the player is alive
+- `money` - The player's in-game money
+- `rating` - The player's HLTV rating for this game
+- `kills` - The player's total kills
+- `assists` - The player's total assists
+- `deaths` - The player's total deaths
+- `team` - The player's [Team](#team) class
+
+Example:
+
+```
+Player {
+    steamid: [Object],
+    hltvid: 11654,
+    name: 'almazer1',
+    alive: true,
+    money: 12300,
+    rating: 1.16,
+    kills: 19,
+    assists: 4,
+    deaths: 17,
+    team: [Object]
+}
+```
+
+### Team
+- `id` - The team's HLTV id
+- `name` - The team's name
+- `score` - The team's score
+- `side` - The team's side (ESide)
+- `players` - An array of the team's [Player](#player) classes
+- `history` - The team's round history
+
+Example:
+
+```
+Team {
+    id: 6921,
+    name: 'Vesuvius',
+    score: 16,
+    side: 1,
+    players: [Array],
+    history: [Object]
+}
+```
+
+### Round
+- `type` - How the round ended for this team (ERoundType)
+- `round` - The round number
+
+Example:
+
+```
+Round {
+    type: 6
+    round: 12
+}
+```
+
+## Enums
+
+There are numerous enums available for your use. All enums are located in the `/resources/` directory.
+
+### EOption
+
+Primarily for internal use. Specifies options about the module.
+
+### ERoundType
+
+Specifies how a team ended the round.
+
+### ESide
+
+Specifies team constants.
 
 ## Examples
 

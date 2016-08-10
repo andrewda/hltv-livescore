@@ -2,7 +2,12 @@
   "name": "hltv-livescore",
   "version": "0.12.0",
   "description": "An HLTV scorebot wrapper",
-  "keywords": ["hltv", "scorebot", "live", "score"],
+  "keywords": [
+    "hltv",
+    "scorebot",
+    "live",
+    "score"
+  ],
   "main": "Livescore.js",
   "license": "MIT",
   "author": {
@@ -15,7 +20,8 @@
     "url": "https://github.com/andrewda/hltv-livescore.git"
   },
   "dependencies": {
-    "socket.io-client": "^1.3.5"
+    "socket.io-client": "^1.3.5",
+    "steamid": "^1.1.0"
   },
   "bugs": {
     "url": "https://github.com/andrewda/hltv-livescore/issues"

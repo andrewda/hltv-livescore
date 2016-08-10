@@ -7,7 +7,8 @@ module.exports = {
 	"Bomb_Defused": 3,
 	"Target_Bombed": 4,
 	"Target_Saved": 5,
-	"lost": 6,
+	"Round_Draw": 6,
+	"lost": 7,
 
 	// Value-to-name mapping for convenience
 	"1": "Terrorists_Win",
@@ -15,5 +16,6 @@ module.exports = {
 	"3": "Bomb_Defused",
 	"4": "Target_Bombed",
 	"5": "Target_Saved",
-	"6": "lost"
+	"6": "Round_Draw",
+	"7": "lost"
 };
