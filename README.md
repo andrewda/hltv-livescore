@@ -104,6 +104,7 @@ Emitted when the bomb is planted.
 Emitted when the bomb is defused.
 
 ### roundStart
+- `round` - The round number.
 
 Emitted at the start of every round.
 
