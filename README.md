@@ -99,6 +99,11 @@ Emitted whenever HLTV sends us a scoreboard update. The scoreboard may not be an
 
 Emitted after every kill.
 
+### suicide
+- `player` - The player object of the suicider
+
+Emitted after a player commits suicide.
+
 ### bombPlanted
 - `player` - The player object of the bomb planter
 
