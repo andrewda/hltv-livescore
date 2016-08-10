@@ -2,9 +2,9 @@
 
 [![NPM Version][npm-img]][npm-url]
 [![Downloads][downloads-img]][npm-url]
+[![Build][travis-img]][travis-url]
 [![Codacy][codacy-img]][codacy-url]
 [![Gitter][gitter-img]][gitter-url]
-[![License][license-img]][license-url]
 
 ## Contents
 
@@ -241,5 +241,5 @@ To be completed
 [npm-url]:       https://www.npmjs.com/package/hltv-livescore
 [gitter-img]:    https://img.shields.io/gitter/room/hltv-livescore/Lobby.svg?style=flat-square
 [gitter-url]:    https://gitter.im/hltv-livescore/Lobby
-[license-img]:   https://img.shields.io/npm/l/hltv-livescore.svg?style=flat-square
-[license-url]:   https://opensource.org/licenses/MIT
+[travis-img]:    https://img.shields.io/travis/andrewda/hltv-livescore.svg
+[travis-url]:    https://travis-ci.org/andrewda/hltv-livescore
