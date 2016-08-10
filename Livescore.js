@@ -177,6 +177,7 @@ Livescore.prototype._onRoundStart = function() {
     this.setTime(this.options[Livescore.EOption["ROUND_TIME"]]);
     this.emit('roundStart');
 
+    this.kills = 0;
     this.knifeKills = 0;
 };
 
