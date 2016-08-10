@@ -3,7 +3,8 @@ module.exports = require('./lib/');
 module.exports.Classes = {
     Player: require('./lib/classes/Player.js'),
     Team: require('./lib/classes/Team.js'),
-    Round: require('./lib/classes/Round.js')
+    Round: require('./lib/classes/Round.js'),
+    Scoreboard: require('./lib/classes/Scoreboard.js')
 };
 
 module.exports.Enums = {
