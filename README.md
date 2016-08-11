@@ -42,24 +42,32 @@ live.on('kill', function(data) {
 
 ## Methods
 
-### Constructor(options)
-- `options` - An object containing at least the required options.
-    - `matchid` - Required. The game's matchid.
-    - `listid` - Required. The game's listid.
-    - `url` - Optional. The URL to listen on. Defaults to `http://scorebot2.hltv.org`.
-    - `port` - Optional. The port to listen on. Defaults to `10022`.
+### Constructor([options])
+- `options` - An optional object containing some of the following options
+    - `matchid` - The game's matchid
+    - `listid` - The game's listid
+    - `url` - The URL to listen on. Defaults to `http://scorebot2.hltv.org`
+    - `port` - The port to listen on. Defaults to `10022`
 
-Constructs a new `Livescore`.
+Constructs a new `Livescore`. You will be automatically connected to the HLTV scorebot server. The game with the specified `matchid` and `listid` will be automatically started if provided. If not provided, you must specify them using them using the `start()` method.
+
+### start([options][, callback])
+- `options` - An optional object containing some of the following options
+    - `matchid` - The game's matchid
+    - `listid` - The game's listid
+- `callback` - An optional callback.
+
+Start the game with the specified `matchid` and `listid`. If provided in the Constructor, `matchid` and `listid` are not required. An error will be thrown if you are not connected to the HLTV scorebot server before calling this method.
 
 ### getPlayers(callback)
-- `callback` - Required. Called with an object of players.
-    - `players` - An object containing all the players connected to the server, with their name as the key.
+- `callback` - Required. Called with an object of players
+    - `players` - An object containing all the players connected to the server, with their name as the key
 
 Retrieve all players connected to the server.
 
 ### getTeams(callback)
-- `callback` - Required. Called with an object of players.
-    - `teams` - An object containing both teams connected to the server.
+- `callback` - Required. Called with an object of players
+    - `teams` - An object containing both teams connected to the server
 
 Retrieve both teams connected to the server.
 
@@ -69,14 +77,22 @@ Retrieve both teams connected to the server.
 Set the scoreboard to a new time.
 
 ### getTime(callback)
-- `callback` - Required. Called with the remaining time.
-    - `time` - The time remaining in seconds as displayed on the scoreboard.
+- `callback` - Required. Called with the remaining time
+    - `time` - The time remaining in seconds as displayed on the scoreboard
 
 Retrieve the time remaining.
 
 ## Events
 
 Events emit an object containing the parameters listed under each event.
+
+### connected
+
+Emitted when we successfully connect to the HLTV Socket.io server.
+
+### started
+
+Emitted immediately before the first `scoreboard` event is emitted.
 
 ### time
 - `seconds` - The time displayed on the timer in seconds

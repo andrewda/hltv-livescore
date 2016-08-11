@@ -13,7 +13,7 @@
         "block-scoped-var": "error",
         "block-spacing": "error",
         "brace-style": "error",
-        "callback-return": "error",
+        "callback-return": "off",
         "camelcase": "error",
         "comma-dangle": "error",
         "comma-spacing": [
@@ -67,7 +67,7 @@
         "lines-around-comment": "error",
         "max-depth": "error",
         "max-len": "off",
-        "max-lines": "error",
+        "max-lines": "off",
         "max-nested-callbacks": "error",
         "max-params": "error",
         "max-statements": "off",
