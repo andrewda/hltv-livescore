@@ -94,6 +94,11 @@ Emitted when we successfully connect to the HLTV Socket.io server.
 
 Emitted immediately before the first `scoreboard` event is emitted.
 
+### log
+- `log` - The log given to us by HLTV since the last log was emitted
+
+Emitted whenever HLTV feels like giving us logs (after kills, round events, etc).
+
 ### time
 - `seconds` - The time displayed on the timer in seconds
 
