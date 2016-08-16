@@ -250,7 +250,7 @@ Specifies team constants.
 
 ## Examples
 
-To be completed
+- [CSGOScoreBot (Reddit Live Threads)](https://github.com/andrewda/CSGOScoreBot)
 
 <!-- Badge URLs -->
 
