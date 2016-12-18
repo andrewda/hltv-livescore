@@ -1,5 +1,6 @@
 {
     "env": {
+        "es6": true,
         "node": true
     },
     "extends": "eslint:recommended",
@@ -8,7 +9,10 @@
         "array-bracket-spacing": "error",
         "array-callback-return": "error",
         "arrow-body-style": "error",
-        "arrow-parens": "error",
+        "arrow-parens": [
+            "error",
+            "always"
+        ],
         "arrow-spacing": "error",
         "block-scoped-var": "error",
         "block-spacing": "error",
