@@ -31,7 +31,6 @@ $ npm install hltv-livescore
 ```javascript
 var Livescore = require('hltv-livescore');
 var live = new Livescore({
-    matchid: 383564,
     listid: 2299033
 });
 
@@ -44,20 +43,18 @@ live.on('kill', function(data) {
 
 ### Constructor([options])
 - `options` - An optional object containing some of the following options
-    - `matchid` - The game's matchid
     - `listid` - The game's listid
     - `url` - The URL to listen on. Defaults to `http://scorebot2.hltv.org`
     - `port` - The port to listen on. Defaults to `10022`
 
-Constructs a new `Livescore`. You will be automatically connected to the HLTV scorebot server. The game with the specified `matchid` and `listid` will be automatically started if provided. If not provided, you must specify them using them using the `start()` method.
+Constructs a new `Livescore`. You will be automatically connected to the HLTV scorebot server. The game with the specified `listid` will be automatically started if provided. If not provided, you must specify them using them using the `start()` method.
 
 ### start([options][, callback])
 - `options` - An optional object containing some of the following options
-    - `matchid` - The game's matchid
     - `listid` - The game's listid
 - `callback` - An optional callback.
 
-Start the game with the specified `matchid` and `listid`. If provided in the Constructor, `matchid` and `listid` are not required. An error will be thrown if you are not connected to the HLTV scorebot server before calling this method.
+Start the game with the specified `listid`. If provided in the Constructor, the `listid` is not required. An error will be thrown if you are not connected to the HLTV scorebot server before calling this method.
 
 ### getPlayers(callback)
 - `callback` - Required. Called with an object of players
