@@ -4,7 +4,7 @@
 [![Downloads][downloads-img]][npm-url]
 [![Build][travis-img]][travis-url]
 [![Codacy][codacy-img]][codacy-url]
-[![Gitter][gitter-img]][gitter-url]
+[![Steam Donate][steam-donate-img]][steam-donate-url]
 
 ## Contents
 
@@ -254,13 +254,13 @@ Specifies team constants.
 
 <!-- Badge URLs -->
 
-[codacy-img]:    https://img.shields.io/codacy/grade/2af21149af4445768438cb611c76f310.svg?style=flat-square
-[codacy-url]:    https://www.codacy.com/app/dassonville-andrew/hltv-livescore
-[downloads-img]: https://img.shields.io/npm/dm/hltv-livescore.svg?style=flat-square
-[downloads-url]: https://www.npmjs.com/package/hltv-livescore
-[npm-img]:       https://img.shields.io/npm/v/hltv-livescore.svg?style=flat-square
-[npm-url]:       https://www.npmjs.com/package/hltv-livescore
-[gitter-img]:    https://img.shields.io/gitter/room/hltv-livescore/Lobby.svg?style=flat-square
-[gitter-url]:    https://gitter.im/hltv-livescore/Lobby
-[travis-img]:    https://img.shields.io/travis/andrewda/hltv-livescore.svg?style=flat-square
-[travis-url]:    https://travis-ci.org/andrewda/hltv-livescore
+[codacy-img]:       https://img.shields.io/codacy/grade/2af21149af4445768438cb611c76f310.svg?style=flat-square
+[codacy-url]:       https://www.codacy.com/app/dassonville-andrew/hltv-livescore
+[downloads-img]:    https://img.shields.io/npm/dm/hltv-livescore.svg?style=flat-square
+[downloads-url]:    https://www.npmjs.com/package/hltv-livescore
+[npm-img]:          https://img.shields.io/npm/v/hltv-livescore.svg?style=flat-square
+[npm-url]:          https://www.npmjs.com/package/hltv-livescore
+[travis-img]:       https://img.shields.io/travis/andrewda/hltv-livescore.svg?style=flat-square
+[travis-url]:       https://travis-ci.org/andrewda/hltv-livescore
+[steam-donate-img]: https://img.shields.io/badge/donate-Steam-lightgrey.svg?style=flat-square
+[steam-donate-url]: https://steamcommunity.com/tradeoffer/new/?partner=132224795&token=HuEE9Mk1
