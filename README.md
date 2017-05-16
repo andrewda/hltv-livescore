@@ -1,5 +1,7 @@
 # HLTV Livescore
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/andrewda/hltv-livescore.svg)](https://greenkeeper.io/)
+
 [![NPM Version][npm-img]][npm-url]
 [![Downloads][downloads-img]][npm-url]
 [![Build][travis-img]][travis-url]
