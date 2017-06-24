@@ -24,7 +24,7 @@
     "steamid": "^1.1.0"
   },
   "devDependencies": {
-    "eslint": "^3.2.2"
+    "eslint": "^4.1.0"
   },
   "bugs": {
     "url": "https://github.com/andrewda/hltv-livescore/issues"
