@@ -1,5 +1,7 @@
 # HLTV Livescore
 
+A simple Node.js library to interface with HLTV's live scorebot.
+
 [![NPM Version][npm-img]][npm-url]
 [![Downloads][downloads-img]][npm-url]
 [![Build][travis-img]][travis-url]
