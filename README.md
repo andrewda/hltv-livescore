@@ -1,3 +1,7 @@
+Due to a lack of resources, this project has been mostly abandoned. Please see [gigobyte/HLTV](https://github.com/gigobyte/HLTV) for a popular and more up-to-date HLTV API. If anyone would like to take over maintenance for this project, please contact [me](https://github.com/andrewda).
+
+--- 
+
 # HLTV Livescore
 
 A simple Node.js library to interface with HLTV's live scorebot.
